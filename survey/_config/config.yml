@@ -1,0 +1,43 @@
+LeftAndMain:
+  application_name: 'Parish Manager'
+FamilyMember:
+  Gender:
+   m: Male
+   f: Female
+  MartialStatus:
+    m: Married
+    s: Single
+    w: Widow/Widower
+    d: Divorced
+    c: Child
+House:
+  CardType:
+    apl: APL
+    bpl: BPL
+Education:
+  Course:
+   pri: 1-12
+   iti: ITI/Poly/Dipolma
+   deg: Degree
+   ttc: TTC/B.Ed
+   pg: PG
+   set: 'SET/UGC-NET'
+   prof: 'Professional Course'
+   mphl: 'MPhil/Phd/PDF'
+Job:
+  SalaryCode:
+    vl: '<=4000'
+    lo: '4001-8000'
+    av: '8001-15000'
+    me: '15001-25000'
+    am: '25001-50000'
+    up: '>50000'
+  LocationCode:
+    fr: 'abroad'
+    out: 'outside kerala'
+    in: 'within kerala'
+  TypeCode:
+    'govt': 'Government'
+    'semi-govt': 'Semi-Goverment'
+    'private': 'Private'
+    'self': 'Self-Employed'

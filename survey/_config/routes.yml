@@ -1,0 +1,14 @@
+---
+After: framework
+---
+Director:
+  rules:
+    '': 'HomeController',
+    'parish//$Action/$ID/$Name': 'ParishController',
+    'family//$Action/$ID/$Name': 'FamilyController'
+    'house//$Action/$ID/$Name': 'HouseController'
+    'land//$Action/$ID/$Name': 'LandController'
+    'shifted-from//$Action/$ID/$Name': 'ShiftedFromController'
+    'agriculture//$Action/$ID/$Name': 'AgricultureController'
+    'business//$Action/$ID/$Name': 'BusinessController'
+    'myaccount//$Action/$ID/$Name': 'MyAccountController'

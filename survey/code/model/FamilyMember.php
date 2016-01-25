@@ -1,0 +1,188 @@
+<?php
+//
+class FamilyMember extends DataObject{
+
+	private static $db = array(
+		'Name' => 'varchar(255)',
+		'DateOfBirth' => 'Date',
+		'Gender' => 'varchar(2)',
+		'MartialStatus' => 'varchar(2)',
+		'Relation' => "Enum('Guardian, Father, Mother, Son, Daughter, Wife, Husband, Brother, Sister, Inlaw, Grandfather, Grandmother, Grandson, Granddaughter')",
+		'HoldsPassport' => 'Boolean',
+		'HoldsBankAccount' => 'Boolean',
+		'HoldsDrivingLicence' => 'Boolean',
+		'BloodGroup' => "Enum('O +,O -,A +,A -,B +,B -,AB +,AB -,NA')"
+	);
+
+    private static $has_one = array(
+        'Family' => 'Family'
+    );
+
+	private static $has_many = array(
+		'Educations' => 'Education'
+	);
+
+	private static $belongs_many_many = array(
+		"CommunityGroups" => "CommunityGroup",
+	);
+
+	private static $default_sort = 'ID DESC';
+
+	private static $field_labels = array(
+		'DateOfBirth' => 'DateOfBirth',
+		'Sex' => 'Gender', // renames the column to "Gender"
+		'MStatus' => 'Martial Status'
+	);
+
+	private static $summary_fields = array(
+		'ID',
+		'Name',
+		'DateOfBirth',
+		'Sex',
+		'MStatus'
+	);
+
+   private static $searchable_fields = array(
+      'Name',
+      'DateOfBirth',	  	
+   );
+	
+	public function Sex(){
+		if($this->Gender == 'm')
+			return 'Male';
+		else
+			return 'Female';
+	}
+
+	//return MartialStatus ie 'Married/Single/...'
+	public function MStatus(){
+		switch($this->MartialStatus){
+			case 'm':
+				return 'Married';
+				break;
+
+			case 's':
+				return 'Single';
+				break;
+
+			case 'w':
+				return 'Widow/Widower';
+				break;
+
+			case 'd':
+				return 'Divorced';
+				break;
+
+			case 'c':
+				return 'Child';
+				break;
+
+		}
+
+	}
+
+
+	public function getCMSFields(){
+		$fields = parent::getCMSFields();
+
+
+		if($this->ID){
+			Session::set("FamilyMemberID", $this->ID);
+		}
+
+		if(Session::get("FamilyID")){
+			$this->FamilyID = Session::get("FamilyID");
+			$fields->replaceField('FamilyID', new HiddenField('FamilyID'));
+		}
+
+		$dateOfBirth = new DateField('DateOfBirth','Date Of Birth');
+		$dateOfBirth->setConfig('dateformat', 'dd-MM-yyyy');
+		$dateOfBirth->setDescription('e.g. '.date('d-m-Y'));
+		$dateOfBirth->setAttribute('placeholder','dd-MM-yyyy');
+		$fields->addFieldsToTab('Root.Main',$dateOfBirth);
+
+		$genders = Config::inst()->get('FamilyMember', 'Gender');
+		$gender = new OptionsetField("Gender", 'Gender', $genders );
+		$fields->addFieldsToTab('Root.Main',$gender);
+
+		$status = Config::inst()->get('FamilyMember', 'MartialStatus');
+		$martialStatus = new OptionsetField("MartialStatus", 'Martial Status', $status );
+
+		$fields->addFieldsToTab('Root.Main',$martialStatus);
+
+
+		$fields->insertBefore(new Tab('Job', 'Job'), 'CommunityGroups');
+		//Job GridField
+		$jobGridFieldConfig = GridFieldConfig_RecordEditor::create();
+		$jobList = Job::get()->filter(array(
+			'FamilyMemberID' => $this->ID
+		))->sort('ID ASC');
+		if($jobList->count()){
+			$jobGridFieldConfig->removeComponentsByType('GridFieldAddNewButton');
+		}
+		$jobGridField = new GridField('Job', 'Job',
+			$jobList,
+			$jobGridFieldConfig);
+		$fields->addFieldsToTab('Root.Job', array(
+						$jobGridField
+					));
+
+
+		$fields->insertBefore(new Tab('Health', 'Health'), 'CommunityGroups');
+		//Health GridField
+		$healthGridFieldConfig = GridFieldConfig_RecordEditor::create();
+		$healthList = Health::get()->filter(array(
+			'FamilyMemberID' => $this->ID
+		))->sort('ID ASC');
+		if($healthList->count()){
+			$healthGridFieldConfig->removeComponentsByType('GridFieldAddNewButton');
+		}
+		$healthGridField = new GridField('Health', 'Health',
+			$healthList,
+			$healthGridFieldConfig);
+		$fields->addFieldsToTab('Root.Health', array(
+			$healthGridField
+		));
+
+
+		//Job GridField
+		/*
+		$communityGroupsCongfig = GridFieldConfig_RelationEditor::create();
+		//$jobGridFieldConfig = GridFieldConfig_RecordEditor::create();
+		$communityGroupsList = $this->CommunityGroups();
+		$communityGroupsGridField = new GridField('CommunityGroups', 'Community Groups',
+			$communityGroupsList,
+			$communityGroupsCongfig);
+		$fields->addFieldsToTab('Root.CommunityGroups', array(
+			$communityGroupsGridField
+		));
+		*/
+
+		//CommunityGroups ListboxField
+		$communityGroupsList = CommunityGroup::get()->map('ID','Title')->toArray();
+		$communityGroupsField = new ListboxField(
+			$name = "CommunityGroups",
+			$title = "Communtiy Groups",
+			$communityGroupsList
+			);
+		$communityGroupsField->setMultiple(true);
+		$fields->addFieldsToTab('Root.CommunityGroups', $communityGroupsField);
+
+		//exit('dd');
+		return $fields;
+	}
+
+	function canView($member = null) {
+		return true;
+	}
+	function canEdit($member = null) {
+		return true;
+	}
+	function canDelete($member = null) {
+		return true;
+	}
+	function canCreate($member = null) {
+		return true;
+	}
+
+}
