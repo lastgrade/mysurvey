@@ -1,7 +1,6 @@
 <div class="main">
     <div class="row">
-        <div class="large-9 medium-9 columns" id="content">
-            <%--<div id="content">--%>
+        <div class="large-9 medium-9 columns" id="content">            
                 <ul class="tabs" data-tab>
                     <li class="tab-title active"><a href="#family">Family</a></li>
                     <li class="tab-title"><a href="#housing">Housing</a></li>
@@ -33,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content active" id="occupation">
+                    <div class="content" id="occupation">
                         <div class="row">
                             <div class="large-12 columns end">
                                 $AgricultureSearchForm
@@ -42,21 +41,45 @@
                         </div>
 						
                     </div>
-                    <div class="content active" id="monthly">
+                    <div class="content" id="monthly">
+						<div class="row">
+							<div class="large-12 columns">
+								$MonthlyIncomeSearchForm
+								$MonthlyExpenseSearchForm
+								
+							</div>
+						</div>
                     </div>
-                    <div class="content active" id="others">
+                    <div class="content" id="others">
+						<div class="row">
+							<div class="large-12 columns">
+								$VehicleSearchForm
+								$ApplianceSearchForm
+								$OtherFacilitySearchForm
+								$MediaSearchForm
+								$CatholicMagazineSearchForm
+								
+							</div>
+						</div>
+						
                     </div>
-                    <div class="content active" id="financial">
+                    <div class="content" id="financial">
+						<div class="row">
+							<div class="large-12 columns">						
+							$LoanSearchForm
+							$SavingSearchForm
+								
+							</div>
+						</div>
                     </div>
 
                 </div>
 
-            <%--</div>--%>
         </div><!-- div id="content" -->
         <div class="large-3 medium-3 columns" id="sidebar">
-            <%--<div id="sidebar">--%>
+
             <% include FamilySideBar %>
-            <%--</div>--%>
+
         </div>
 
     </div>

@@ -8,6 +8,7 @@
 
 
             <% if $PaginatedList %>
+			<% include PaginationResult  Items=$PaginatedList %>
 			<a href="{$Link(print-by-parish)}?{$getUrlParameters}" target="_blank" title="Print"> Print <i class="fi-print"></i></a>
                 <table>
                     <thead>
@@ -18,7 +19,8 @@
                         <th>Contact No</th>
                         <th>Block/Unit/Family</th>
                         <th>House No</th>
-                    </th>
+						<th></th>
+                    </tr>
                     </thead>
                     <tbody>
                 <% loop $PaginatedList %>
@@ -29,6 +31,9 @@
                         <td><% if $Contact %>$Contact.Mobile<% end_if %></td>
                         <td>{$BlockNo}/{$UnitNo}/{$FamilyNo}</td>
                         <td>$HouseNo</td>
+						<td>
+							<a href="$Link" data-reveal-id="myModal" data-reveal-ajax="true" title="View $Name"><i class="fi-page"></i></a>
+						</td>
                     </tr>
                 <% end_loop %>
                     </tbody>

@@ -10,7 +10,13 @@ class FamilyController extends SiteController
 {
 
     public static $allowed_actions = array(
-        'index','search_by_parish','search_by_location','print_by_parish','print_by_location'
+        'index',
+		'search_by_parish',
+		'search_by_location',
+		'print_by_parish',
+		'print_by_location',
+		'show',
+		'print_family'
     );
 
 
@@ -31,27 +37,85 @@ class FamilyController extends SiteController
     }
 
     public function search_by_parish() {
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = 'Search by parish';
 		$this->list = $this->Results();	
-        return $this->renderWith(array('Family_parishresults', 'App'));
+		return $this->renderWith(array('Family_parishresults', 'App'));
     }
 
     public function search_by_location() {
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = 'Search by location';
 		$this->list = $this->Results();	
         return $this->renderWith(array('Family_locationresults', 'App'));
     }
 
 	public function print_by_parish() {
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = 'Family list';
         return $this->renderWith(array('Family_printparishresults', 'Print'));
     }
 
     public function print_by_location() {
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = 'Family list';
         return $this->renderWith(array('Family_printlocationresults', 'Print'));
     }
 
+	public function show(){
+		// show Unathorised page with user does not have access other parish
+		$familyID = Convert::raw2sql($this->request->param('ID'));		
+		$family = Family::get()->byID($familyID);		
+		if(!$family){
+			return $this->httpError('404','Page not found');
+		}
+		$this->title = 'Show Family details';
+		$data = array('Family' => $family);
+		if($this->request->isAjax()){
+			return $this->customise($data )
+				->renderWith(array('Family_show'));
+		}
+		else{
+			return $this->customise($data )
+				->renderWith(array('Family_show','App'));			
+		}
+	}
+	
+
+	public function print_family(){
+		// show Unathorised page with user does not have access other parish
+		$familyID = Convert::raw2sql($this->request->param('ID'));		
+		$family = Family::get()->byID($familyID);		
+		if(!$family){
+			return $this->httpError('404','Page not found');
+		}
+		$this->title = 'Print Family details';
+		$data = array('Family' => $family);
+        return $this->customise($data )
+			->renderWith(array('Family_print','Print'));		
+	}	
+	
+	
     public function Title() {
         return $this->title;
     }
@@ -182,6 +246,57 @@ class FamilyController extends SiteController
 		$form = $controller->BusinessSearchForm();
         return $form;
 	}
-	
 
+	public function MonthlyIncomeSearchForm(){
+		$controller = new MonthlyIncomeController();
+		$form = $controller->MonthlyIncomeSearchForm();
+        return $form;
+	}
+	
+	public function MonthlyExpenseSearchForm(){
+		$controller = new MonthlyExpenseController();
+		$form = $controller->MonthlyExpenseSearchForm();
+        return $form;
+	}
+	
+	public function VehicleSearchForm(){
+		$controller = new VehicleController();
+		$form = $controller->VehicleSearchForm();
+        return $form;
+	}
+	
+	public function ApplianceSearchForm(){
+		$controller = new ApplianceController();
+		$form = $controller->ApplianceSearchForm();
+        return $form;
+	}
+	
+	public function OtherFacilitySearchForm(){
+		$controller = new OtherFacilityController();
+		$form = $controller->OtherFacilitySearchForm();
+        return $form;
+	}
+	
+	public function MediaSearchForm(){
+		$controller = new MediaController();
+		$form = $controller->MediaSearchForm();
+        return $form;
+	}
+
+	public function CatholicMagazineSearchForm(){
+		$controller = new CatholicMagazineController();
+		$form = $controller->CatholicMagazineSearchForm();
+        return $form;
+	}
+	
+	public function LoanSearchForm(){
+		$controller = new LoanController();
+		return $controller->LoanSearchForm();
+	}
+
+	public function SavingSearchForm(){
+		$controller = new SavingController();
+		return $controller->SavingSearchForm();
+	}
+	
 }

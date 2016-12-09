@@ -29,12 +29,25 @@ class AgricultureController extends SiteController{
 	}
 
 	public function search(){
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
+		
 		$this->title = 'Search Agriculture';
 		$this->list = $this->Results();
 		return $this->renderWith(array('Agriculture_results','App'));
 	}
 
 	public function printlist(){
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = 'Agriculture list';		
 		return $this->renderWith(array('Agriculture_printresults','Print'));
 	}
@@ -94,10 +107,5 @@ class AgricultureController extends SiteController{
         return $form;
 	}
 
-	public function BusinessSearchForm(){
-		$controller = new BusinessController();
-		$form = $controller->BusinessSearchForm();
-        return $form;
-	}
 
 }

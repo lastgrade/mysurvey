@@ -10,7 +10,7 @@
 						<th>House</th>
 						<th>Ration Card</th>
 						<th>House Type</th>
-						</th>
+					</tr>
 					</thead>
 					<tbody>
 						<% loop $Results %>

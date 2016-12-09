@@ -31,12 +31,24 @@ class HouseController extends SiteController
     }
 
     public function search() {
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = "Search house";
 		$this->list = $this->Results();	
         return $this->renderWith(array('House_results', 'App'));
     }
 
     public function printlist() {
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = "House list";
         return $this->renderWith(array('House_printresults', 'Print'));
     }
@@ -112,14 +124,15 @@ class HouseController extends SiteController
     public function HouseSearchForm(){
         $form = new HouseSearchForm($this,__FUNCTION__);
         $form->setFormMethod('get')
-            ->setFormAction($this->link('search'));
+            ->setFormAction($this->Link('search'));
         $form->setLegend('Search House');
         $form->disableSecurityToken();
         $form->loadDataFrom($this->request->getVars());
         return $form;
     }
 
-	
+
+	/*	
     public function LandSearchForm(){
         $controller = new LandController();
         $form = $controller->LandSearchForm();
@@ -131,6 +144,6 @@ class HouseController extends SiteController
         $form = $controller->ShiftedFromSearchForm();
         return $form;
     }
-	
+	*/
 
 }

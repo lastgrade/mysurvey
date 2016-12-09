@@ -9,7 +9,7 @@
 						<th>Contact Person</th>						
 						<th>Block/Unit/Family</th>
 						<th>Agriculture</th>		
-						</th>
+					</tr>
 					</thead>
 					<tbody>
 						<% loop $Results %>

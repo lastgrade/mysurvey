@@ -13,6 +13,10 @@ class Parish extends DataObject implements PermissionProvider{
         'Families' => 'Family'
     );
 
+	private static $belongs_many_many = array(
+		'Members' => 'Member'
+	);
+
 	private static $summary_fields = array(
 		'Title',
 		'Address',

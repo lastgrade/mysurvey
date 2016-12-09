@@ -11,7 +11,7 @@ class Job extends DataObject
     private static $db = array(
         'Title' => 'Varchar(100)',
         'CompanyName' => 'Varchar(100)',
-        'Type' => "Enum('govt, semi-govt, private, self')",
+        'Type' => "Enum('govt, semi-govt, private, self, homemaker')",
         'Location' => 'Varchar(3)',// fr=abroad,out = outside keral,in = with kerala
         'Pension' => 'Boolean',
         'SavingScheme' => 'Boolean',
@@ -39,6 +39,24 @@ class Job extends DataObject
         return $typeCodes[$this->Type];
     }
 
+    public function JobLocation(){
+        $locationCodes = Config::inst()->get('Job', 'LocationCode');
+        return $locationCodes[$this->Location];
+    }
+
+    public function MonthlySalary(){
+        $salaryCodes = Config::inst()->get('Job', 'SalaryCode');
+        return $salaryCodes[$this->Salary];
+    }
+	
+	
+    public function HasOrNot($Title = null){		
+        if($this->$Title && $Title)
+            return 'Yes';
+        else
+            return 'No';
+    }
+	
     public function getCMSFields(){
         $fields = parent::getCMSFields();
 

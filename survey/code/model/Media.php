@@ -57,6 +57,37 @@ class Media extends DataObject
         else
             return 'No';
     }
+	
+    public function HasOrNot($Title = null){		
+        if($this->$Title && $Title)
+            return 'Yes';
+        else
+            return 'No';
+    }
+	
+	public function PrintMedia(){
+		$mediaArray = array('Newspaper','Magazine','KidsMagazine',
+								'Television', 'Internet','Mobile'							
+							);
+		$media = null;
+		foreach($mediaArray as $medium){			
+			if($this->$medium){
+				$media .= $medium;
+				switch($medium){
+					case 'Newspaper':
+						$media .= 	'('.$this->NewspaperCount.'-'.$this->NewspaperNames.'), ';
+						break;
+					case 'Mobile':
+						$media .= 	'('.$this->MobileCount.'), ';
+						break;
+					default:
+						$media .= 	', ';
+						break;
+				}
+			}			
+		}		
+		return rtrim($media, ', ');		
+	}
 
 
     public function getCMSFields() {

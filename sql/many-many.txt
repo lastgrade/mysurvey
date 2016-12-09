@@ -1,0 +1,14 @@
+SELECT DISTINCT "FamilyMember"."ClassName", "FamilyMember"."LastEdited", "FamilyMember"."Created", "FamilyMember"."Name", "FamilyMember"."DateOfBirth", "FamilyMember"."Gender", "FamilyMember"."MartialStatus", "FamilyMember"."Relation", "FamilyMember"."HoldsPassport", "FamilyMember"."HoldsBankAccount", "FamilyMember"."HoldsDrivingLicence", "FamilyMember"."BloodGroup", "FamilyMember"."FamilyID", "FamilyMember"."ParishID", "FamilyMember"."ID", 
+			CASE WHEN "FamilyMember"."ClassName" IS NOT NULL THEN "FamilyMember"."ClassName"
+			ELSE 'FamilyMember' END AS "RecordClassName"
+ FROM "FamilyMember"
+ WHERE ("FamilyMember"."ParishID" = ?)
+ ORDER BY "FamilyMember"."ID" DESC
+ 
+ SELECT DISTINCT "FamilyMember"."ClassName", "FamilyMember"."LastEdited", "FamilyMember"."Created", "FamilyMember"."Name", "FamilyMember"."DateOfBirth", "FamilyMember"."Gender", "FamilyMember"."MartialStatus", "FamilyMember"."Relation", "FamilyMember"."HoldsPassport", "FamilyMember"."HoldsBankAccount", "FamilyMember"."HoldsDrivingLicence", "FamilyMember"."BloodGroup", "FamilyMember"."FamilyID", "FamilyMember"."ParishID", "FamilyMember"."ID", 
+			CASE WHEN "FamilyMember"."ClassName" IS NOT NULL THEN "FamilyMember"."ClassName"
+			ELSE 'FamilyMember' END AS "RecordClassName"
+ FROM "FamilyMember" INNER JOIN "CommunityGroup_FamilyMembers" ON "CommunityGroup_FamilyMembers"."FamilyMemberID" = "FamilyMember"."ID" LEFT JOIN "CommunityGroup" ON "CommunityGroup_FamilyMembers"."CommunityGroupID" = "CommunityGroup"."ID"
+ WHERE ("CommunityGroup"."ID" = ?)
+ AND ("FamilyMember"."ParishID" = ?)
+ ORDER BY "FamilyMember"."ID" DESC

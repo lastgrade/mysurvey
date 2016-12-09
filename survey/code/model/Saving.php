@@ -58,7 +58,31 @@ class Saving extends DataObject
         else
             return 'No';
     }
+	
+    public function HasOrNot($Title = null){		
+        if($this->$Title && $Title)
+            return 'Yes';
+        else
+            return 'No';
+    }
 
+	
+	public function PrintSavings(){
+		$savingsArray = array('EducationFund','LifeInsurance','HealthInsurance',
+								'DeathFund', 'MarriageFund','Mythri', 'Chitty',	'Others',							
+							);
+		$savings = null;
+		foreach($savingsArray as $saving){
+			if($this->$saving){
+				if($this->$saving && $saving =='Others')
+					$savings .= $saving.'('.$this->Specify.'), ';
+				else
+					$savings .= $saving.', ';
+			}			
+		}		
+		return rtrim($savings, ', ');		
+	}
+	
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();

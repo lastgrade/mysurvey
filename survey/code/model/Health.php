@@ -63,6 +63,29 @@ class Health extends DataObject
             return 'No';
     }
 
+	
+	public function Diseases(){
+		$diseasesArray = array('Blind','Deaf','Dumb','LearningDisability',
+						'MentalDisability','HearthDisease',	'Diabetes',
+						'Cancer','BloodPressure','Alcoholic'
+					);
+		$diseases = null;
+		foreach($diseasesArray as $disease){
+			if($this->$disease){
+				$diseases .= $disease.', ';
+			}			
+		}		
+		return rtrim($diseases, ', ');
+	}
+	
+    public function HasOrNot($Title = null){		
+        if($this->$Title && $Title)
+            return 'Yes';
+        else
+            return 'No';
+    }
+	
+	
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();

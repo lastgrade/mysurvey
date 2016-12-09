@@ -17,7 +17,7 @@ class Vehicle extends DataObject
         'CountryBoat' => 'Boolean',
         'Vallam' => 'Boolean',
         'FishingBoat' => 'Boolean',
-        'TourishBoat' => 'Boolean',
+        'TouristBoat' => 'Boolean',
     );
 
     private static $has_one = array(
@@ -58,6 +58,61 @@ class Vehicle extends DataObject
             return 'No';
     }
 
+    public function HasLightVehicle(){
+        if($this->LightVehicle)
+            return 'Yes';
+        else
+            return 'No';
+    }
+	
+    public function HasHeavyCommercial(){
+        if($this->HeavyCommercial)
+            return 'Yes';
+        else
+            return 'No';
+    }
+	
+    public function HasCountryBoat(){
+        if($this->CountryBoat)
+            return 'Yes';
+        else
+            return 'No';
+    }
+	
+    public function HasVallam(){
+        if($this->Vallam)
+            return 'Yes';
+        else
+            return 'No';
+    }
+
+    public function HasFishingBoat(){
+        if($this->FishingBoat)
+            return 'Yes';
+        else
+            return 'No';
+    }
+    public function HasTouristBoat(){
+        if($this->TouristBoat)
+            return 'Yes';
+        else
+            return 'No';
+    }
+
+	public function VehiclesOwned(){
+		$vehiclesArray = array('Cycle','Bike','Autoriskaw','LightVehicle',
+						'HeavyCommercial','CountryBoat',	'Vallam',
+						'FishingBoat','TouristBoat'
+					);
+		$vehicles = null;
+		foreach($vehiclesArray as $vehicle){
+			if($this->$vehicle){
+				$vehicles .= $vehicle.', ';
+			}			
+		}		
+		return rtrim($vehicles, ', ');
+	}
+	
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
@@ -68,6 +123,7 @@ class Vehicle extends DataObject
 
         $fields->addFieldToTab('Root.Main',new HeaderField('CustomHeader','Vehicles Details'),'Cycle');
 
+		
         return $fields;
     }
 

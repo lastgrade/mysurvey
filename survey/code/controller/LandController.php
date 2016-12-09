@@ -30,12 +30,24 @@ class LandController extends SiteController
     }
 
     public function search() {
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = "Search land ";
 		$this->list = $this->Results();	
         return $this->renderWith(array('Land_results', 'App'));
     }
 
     public function printlist() {
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = "Land list";
         return $this->renderWith(array('Land_printresults', 'Print'));
     }
@@ -93,7 +105,7 @@ class LandController extends SiteController
     public function LandSearchForm(){
         $form = new LandSearchForm($this,__FUNCTION__);
         $form->setFormMethod('get')
-            ->setFormAction($this->link('search'));
+            ->setFormAction($this->Link('search'));
         $form->setLegend('Search Land');
         $form->disableSecurityToken();
         $form->loadDataFrom($this->request->getVars());

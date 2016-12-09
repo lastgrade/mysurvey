@@ -24,7 +24,6 @@ class AgricultureSearchForm extends BaseForm {
         $typeField->setEmptyString('select any');
         $fields->push($typeField);
 
-
         $parishes = Parish::get()->map('ID', 'NameWithLocation')->toArray();
         $parishField = DropdownField::create('ParishID', 'Parish')
             ->setSource($parishes);

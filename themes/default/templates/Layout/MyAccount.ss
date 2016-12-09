@@ -8,7 +8,7 @@
 					<div id="FirstName"><label><% _t('My.FIRSTNAME','First Name') %>:</label> <p class="readonly">$FirstName</p></div>
 					<% end_if %>
 					<% if $Surname %>
-					<div id="Surname"><label><% _t('My.Surname','Sur Name') %>:</label> <p class="readonly">$Surname</p></div>
+					<div id="Surname"><label><% _t('My.Surname','Second Name') %>:</label> <p class="readonly">$Surname</p></div>
 					<% end_if %>
 					<% if $Email %>
 					<div id="Email"><label><% _t('My.Email','Email') %>:</label> <p class="readonly">$Email</p></div>

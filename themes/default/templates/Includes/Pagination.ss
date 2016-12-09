@@ -1,7 +1,7 @@
 <% with $Items %>
     <% if $MoreThanOnePage %>
 
-        <ul class="pagination">
+        <ul class="pagination"  role="navigation" aria-label="Pagination">
             <% if $PrevLink %><li><a href="$PrevLink">&laquo;</a></li><% end_if %>
 
             <% loop $PaginationSummary(4) %>

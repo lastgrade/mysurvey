@@ -19,9 +19,11 @@ class ParishController extends Controller
 
     public function search(){
 
-        $term = Convert::raw2sql($this->request->getVar('term'));
+        $term = Convert::raw2sql(trim($this->request->getVar('term')));
 
-        $data = Parish::get()->filter(array('Title:PartialMatch'=>$term));
+        $data = Parish::get()->filterAny(array(
+											'Title:PartialMatch'=>$term,
+											'Location:PartialMatch'=>$term));
         //$f1 = new JSONDataFormatter();
         //return $f1->convertDataObjectSet($data,array('ID','Title'));
         if($data){

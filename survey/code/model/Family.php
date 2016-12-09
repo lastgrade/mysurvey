@@ -31,6 +31,15 @@ class Family extends DataObject
 		'ShiftedFrom' => 'ShiftedFrom.Family',
 		'Agriculture' => 'Agriculture.Family',
 		'Business' => 'Business.Family',
+		'MonthlyIncome' => 'MonthlyIncome.Family',
+		'MonthlyExpense' => 'MonthlyExpense.Family',
+		'Vehicle' => 'Vehicle.Family',
+		'Appliance' => 'Appliance.Family',
+		'OtherFacility' => 'OtherFacility.Family',
+		'Media' => 'Media.Family',
+		'CatholicMagazine' => 'CatholicMagazine.Family',
+		'Loan' => 'Loan.Family',
+		'Saving' => 'Saving.Family',
     );	
 	private static $default_sort = 'ID DESC';
 
@@ -50,7 +59,6 @@ class Family extends DataObject
 		'FamilyNo',
 		'ParishName'
 	);
-
 
     private static $searchable_fields = array(
     	'Name',
@@ -74,7 +82,26 @@ class Family extends DataObject
 	public function ParishName(){
 		return ($this->ParishID)?$this->Parish()->NameWithLocation():'';
 	}
+	
+	public function Link($BackURL = null ){		
+		$controller = new FamilyController();
+		$url = $controller->Link();
+		if($BackURL){
+			return Controller::join_links(
+				$url,
+				'show/'.$this->ID,
+				'?RedirectURL=' . urlencode($BackURL)			
+				);
+		}
+		else{
+			return Controller::join_links(
+				$url,
+				'show/'.$this->ID
+				);			
+		}
 
+	}
+	
 	/*
 	public function Contact(){
 		$contact = Contact::get()->filter(array(
@@ -108,9 +135,20 @@ class Family extends DataObject
 		//$fields->removeByName('Address');
 		//$fields->removeByName('Address');
 		//$fields->removeByName('Address');
-		$parishes = Parish::get()->map('ID', 'NameWithLocation')->toArray();
+		
+		
+		$member = Member::currentUser();
+		$parishes = $member->Parishes(); 		
+		if($parishes->exists()){
+			$parishArray = $parishes->map('ID', 'NameWithLocation')->toArray();
+		}
+		else{
+			$parishArray = Parish::get()->map('ID', 'NameWithLocation')->toArray();
+		}
+		
 		$parishField = DropdownField::create('ParishID', 'Parish')
-			->setSource($parishes);
+			->setSource($parishArray);
+			
 		$parishField->setEmptyString('select...');
 		//$fields->push($parishField);
 		$fields->replaceField('ParishID',$parishField);
@@ -124,6 +162,7 @@ class Family extends DataObject
 
 		if($this->ID){
 			Session::set("FamilyID", $this->ID);
+			Session::set("ParishID", $this->ParishID);
 		}
 
 		$nameField = TextField::create('Name','Family Name');
@@ -132,11 +171,22 @@ class Family extends DataObject
 		$houseNoField = TextField::create('HouseNo','House No (govt)');
 		$fields->replaceField('HouseNo', $houseNoField);
 		
-		$parishes = Parish::get()->map('ID', 'NameWithLocation')->toArray();
+		$member = Member::currentUser();
+		$parishes = $member->Parishes(); 
+		
+		if($parishes->exists()){
+			$parishArray = $parishes->map('ID', 'NameWithLocation')->toArray();
+		}
+		else{
+			$parishArray = Parish::get()->map('ID', 'NameWithLocation')->toArray();
+		}
+		
 		$parishField = DropdownField::create('ParishID', 'Parish')
-			->setSource($parishes);
-		$parishField->setEmptyString('select...');
+			->setSource($parishArray);
+		$parishField->setEmptyString('select...');		
 		$fields->replaceField('ParishID', $parishField);
+		
+		
 
 		//remove FamilyMembers tab
 		$fields->removeByName('FamilyMembers');

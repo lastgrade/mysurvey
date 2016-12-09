@@ -28,13 +28,25 @@ class BusinessController extends SiteController{
 		return $this->renderWith(array('Business','App'));
 	}
 
-	public function search(){
+	public function search(){		
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = 'Search Business';
 		$this->list = $this->Results();
 		return $this->renderWith(array('Business_results','App'));
 	}
 
 	public function printlist(){
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = 'Business list';		
 		return $this->renderWith(array('Business_printresults','Print'));
 	}
@@ -87,7 +99,7 @@ class BusinessController extends SiteController{
 	public function BusinessSearchForm(){
 		$form = new BusinessSearchForm($this,__FUNCTION__);
         $form->setFormMethod('get')
-            ->setFormAction($this->link('search'));
+            ->setFormAction($this->Link('search'));
         $form->setLegend('Search Business');
         $form->disableSecurityToken();
         $form->loadDataFrom($this->request->getVars());

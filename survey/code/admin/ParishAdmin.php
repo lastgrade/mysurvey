@@ -27,16 +27,34 @@ class ParishAdmin extends ModelAdmin{
 			$gridField->getConfig()->removeComponentsByType('GridFieldAddNewButton');
 		}
 
-		/*	
-		if($this->modelClass == 'Family'){
-			$gridFieldName = $this->sanitiseClassName($this->modelClass);
-			$gridField = $form->Fields()->fieldByName($gridFieldName);
-
-			$gridField->getConfig()
-				->addComponent(new GridFieldCopyButton(), 'GridFieldEditButton');
-		}
-		*/
 		
         return $form;
+    }
+	
+    public function getList() {
+        $list = parent::getList();
+
+        // Always limit by model class, in case you're managing multiple
+        if($this->modelClass == 'Family') {
+			$member = Member::currentUser();
+			$parishes = $member->Parishes(); 
+			if($parishes->exists()){
+				$parishArray =  $parishes->getIDList();
+				$list = $list->filter(array('ParishID'=>$parishArray));
+			}			            
+			//Debug::show($list->sql());
+        }
+
+        if($this->modelClass == 'FamilyMember') {
+			$member = Member::currentUser();
+			$parishes = $member->Parishes(); 
+			if($parishes->exists()){
+				$parishArray =  $parishes->getIDList();
+				$list = $list->filter(array('ParishID'=>$parishArray));
+			}			            
+			//Debug::show($list->sql());
+        }
+		
+        return $list;
     }	
 }

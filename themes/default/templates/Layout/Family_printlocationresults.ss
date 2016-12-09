@@ -10,7 +10,7 @@
                             <th>Contact No</th>
                             <th>Panchayat/Municipality/Corporation</th>
                             <th>House No</th>
-                            </th>
+                        </tr>
                         </thead>
                         <tbody>
                             <% loop $Results %>

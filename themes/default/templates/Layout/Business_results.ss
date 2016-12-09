@@ -7,6 +7,7 @@
             $BusinessSearchForm
 
 			<% if $PaginatedList %>
+			<% include PaginationResult  Items=$PaginatedList %>
 			<a href="{$Link(printlist)}?{$getUrlParameters}" target="_blank" title="Print"> Print <i class="fi-print"></i></a>
 				<table>
 					<thead>
@@ -16,7 +17,7 @@
 						<th>Contact Person</th>						
 						<th>Block/Unit/Family</th>
 						<th>Business</th>		
-						</th>
+					</tr>
 					</thead>
 					<tbody>
 						<% loop $PaginatedList %>

@@ -9,30 +9,14 @@
                     <li class="tab-title"><a href="#members">Members</a></li>
                 </ul>
                 <div class="tabs-content">
-                    <div class="content active" id="family">
-						<div  data-alert class="alert-box secondary">
-							Under Construction
-							  <a href="#" class="close">&times;</a>
-						</div>
-                        <h3>Family</h3>
+                    <div class="content active" id="family">                        
                         <p>Total no of families <br>
-                        <strong>1000</strong>
-                        </p>
-                        <p>Total no of families <br>
-                        <strong>1000</strong>
+                        <strong>$Families.Count familes</strong>
                         </p>
                     </div>
-                    <div class="content" id="members">
-						<div  data-alert class="alert-box secondary">
-							Under Construction
-							  <a href="#" class="close">&times;</a>
-						</div>
-                        <h3>Members</h3>
+                    <div class="content" id="members">                        
                         <p>Total no of members <br>
-                            <strong>1000</strong>
-                        </p>
-                        <p>Total no of members <br>
-                            <strong>1000</strong>
+                            <strong>$FamilyMembers.Count members</strong>
                         </p>
                     </div>
                 </div>
@@ -48,7 +32,7 @@
                         </a>
                     </div>
                     <div class="large-4 columns text-center">
-                        <a href="#">
+                        <a href="members">
                             <i class="fi-torso size-72"></i>
                             <p>Members reports</p>
                         </a>

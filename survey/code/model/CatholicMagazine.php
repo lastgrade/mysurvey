@@ -58,7 +58,30 @@ class CatholicMagazine extends DataObject
         else
             return 'No';
     }
+	
+    public function HasOrNot($Title = null){		
+        if($this->$Title && $Title)
+            return 'Yes';
+        else
+            return 'No';
+    }
 
+
+	public function Magazines(){
+		$magazinesArray = array('Jeevadeepthi','Jeevanaadam','Christain',
+								'PreshithaKeralam', 'Shalom','Cherupushpam','Others',							
+							);
+		$magazines = null;
+		foreach($magazinesArray as $magazine){
+			if($this->$magazine){
+				if($this->$magazine && $magazine =='Others')
+					$magazines .= $magazine.'('.$this->Specify.'), ';
+				else
+					$magazines .= $magazine.', ';
+			}			
+		}		
+		return rtrim($magazines, ', ');		
+	}
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();

@@ -5,6 +5,7 @@
 				$LocationSearchForm
 				
                 <% if $PaginatedList %>
+					<% include PaginationResult  Items=$PaginatedList %>
 					<a href="{$Link(print-by-location)}?{$getUrlParameters}" target="_blank" title="Print"> Print <i class="fi-print"></i></a>
                     <table>
                         <thead>
@@ -15,7 +16,7 @@
                             <th>Contact No</th>
                             <th>Panchayat/Municipality/Corporation</th>
                             <th>House No</th>
-                            </th>
+                        </tr>
                         </thead>
                         <tbody>
                             <% loop $PaginatedList %>

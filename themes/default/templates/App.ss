@@ -10,13 +10,12 @@
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="{$ThemeDir}/jquery-ui/jquery-ui.js"></script>
 
-    <%--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">--%>
-    <%--<script src="//code.jquery.com/jquery-1.10.2.js"></script>--%>
-    <%--<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>--%>
-
-    <% require themedCSS('app') %>
+	
+	<% require css('themes/default/foundation-icons/foundation-icons.css') %>	
+    <%-- require themedCSS('app') --%>
     <% require themedCSS('style') %>
     <script src="{$ThemeDir}/js/modernizr.js"></script>
+	
   </head>
   <body>
 
@@ -41,13 +40,16 @@
                       <li class="link has-dropdown"><a href="#">Survey Reports</a>
                           <ul class="dropdown">
                               <li class="link"><a href="family">Family</a></li>
-                              <li class="link"><a href="#">Member</a></li>
+                              <li class="link"><a href="members">Member</a></li>
                           </ul>
 
                       </li>
                       <li class="link">
                           <a href="admin/parishes" target="_blank">Manage Survey</a>
                       </li>
+                      <li class="link">
+                          <a href="myparish">My Parish</a>
+                      </li>					  
                       <li class="has-dropdown">
                           <a href="myaccount">My Account</a>
                           <ul class="dropdown">
@@ -106,9 +108,14 @@
 
     <% include Footer %>
 
-    <%--<script src="{$ThemeDir}/js/jquery.min.js"></script>--%>
-    <%--<script src="{$ThemeDir}/js/foundation.min.js"></script>--%>
-    <%--<script src="{$ThemeDir}/js/app.js"></script>--%>
+
+	<div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+	  <h2 id="modalTitle">Awesome. I have it.</h2>
+	  <p class="lead">Your couch.  It is mine.</p>
+	  <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+	  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+	</div>
+	
     <% require javascript('themes/default/js/foundation.min.js') %>
     <% require javascript('themes/default/js/app.js') %>
   </body>

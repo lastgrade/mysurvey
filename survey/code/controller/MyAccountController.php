@@ -102,14 +102,14 @@ class MyAccountController extends SiteController{
         $existingMember = DataObject::get_one('Member', "\"Email\" = '$SQL_email'");
         if ($existingMember) {
             if ($existingMember->ID != $member->ID) {
-                $form->addErrorMessage('Blurb',
+                $form->addErrorMessage('Email',
                     _t(
                         'MyAccount.EMAILEXISTS',
                         'Sorry, that email address already exists. Please choose another.'
                     ),
                     'bad'
                 );
-                
+                Session::set("FormInfo.".$form->FormName().".data", $data);
                 return $this->redirectBack();
             }
         }

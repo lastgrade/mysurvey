@@ -1,9 +1,9 @@
-<h2>Sidebar</h2>
+<h2>Survey</h2>
 <ul class="side-nav">
     <li><a href="family">Family</a></li>
-    <li><a href="house">Housing</a></li>
-    <li><a href="agriculture">Occupation</a></li>
-    <li><a href="#">Montly</a></li>
-    <li><a href="#">Other Details</a></li>
-    <li><a href="#">Financial</a></li>
+    <li><a href="housing">Housing</a></li>
+    <li><a href="occupation">Occupation</a></li>
+    <li><a href="monthly">Monthly</a></li>
+    <li><a href="other-details">Other Details</a></li>
+    <li><a href="financial">Financial</a></li>
 </ul>

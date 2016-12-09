@@ -9,7 +9,7 @@
 						<th>Block/Unit/Family</th>
 						<th>Shifted</th>
 						<th>Reason</th>
-						</th>
+					</tr>
 					</thead>
 					<tbody>
 						<% loop $Results %>

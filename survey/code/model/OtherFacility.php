@@ -58,6 +58,27 @@ class OtherFacility extends DataObject
             return 'No';
     }
 
+    public function HasOrNot($Title = null){		
+        if($this->$Title && $Title)
+            return 'Yes';
+        else
+            return 'No';
+    }
+	
+	public function Facilities(){
+		
+		$facilitiesArray = array('WaterWell','DrillWell','WaterConnection','RainwaterStorage',
+							'Biogas','Electricity',	'SolarEnergy', 'VegetableGarden'						
+						);
+		$facilities = null;
+		foreach($facilitiesArray as $facility){
+			if($this->$facility){
+				$facilities .= $facility.', ';
+			}			
+		}		
+		return rtrim($facilities, ', ');
+		
+	}	
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();

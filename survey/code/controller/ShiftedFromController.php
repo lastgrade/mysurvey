@@ -25,12 +25,24 @@ class ShiftedFromController extends SiteController
     }
 
     public function search() {
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		$this->title = "Search Shifted From ";
 		$this->list = $this->Results();
         return $this->renderWith(array('ShiftedFrom_results', 'App'));
     }
 
     public function printlist() {
+		// show Unathorised page with user does not have access other parish
+		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
+		if(!$this->canAccess($parishID)){
+			return $this->renderWith(array('Unathorised_access', 'App'));
+		}
+		
 		//$this->list = $this->Results();
 		$this->title = "Shifted-Form list";
         return $this->renderWith(array('ShiftedFrom_printresults', 'Print'));

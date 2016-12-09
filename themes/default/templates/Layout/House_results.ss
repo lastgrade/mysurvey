@@ -7,6 +7,7 @@
             $HouseSearchForm
 
 			<% if $PaginatedList %>
+			<% include PaginationResult  Items=$PaginatedList %>
 			<a href="{$Link(printlist)}?{$getUrlParameters}" target="_blank" title="Print"> Print <i class="fi-print"></i></a>
 				<table>
 					<thead>
@@ -18,7 +19,7 @@
 						<th>House</th>
 						<th>Ration Card</th>
 						<th>House Type</th>
-						</th>
+					</tr>
 					</thead>
 					<tbody>
 						<% loop $PaginatedList %>

@@ -36,6 +36,7 @@ class ParishSearchForm extends BaseForm
         $parishField = DropdownField::create('ParishID', 'Parish')
             ->setSource($parishes);
         $parishField->setEmptyString('All Parish');
+		
         $parishField->setValue(parent::getDefaultParishID());
         $fields->push($parishField);
 

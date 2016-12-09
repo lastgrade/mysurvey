@@ -10,7 +10,7 @@
                         <th>Contact No</th>
                         <th>Block/Unit/Family</th>
                         <th>House No</th>
-                    </th>
+                    </tr>
                     </thead>
                     <tbody>
                 <% loop $Results %>

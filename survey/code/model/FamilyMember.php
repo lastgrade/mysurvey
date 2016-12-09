@@ -15,9 +15,15 @@ class FamilyMember extends DataObject{
 	);
 
     private static $has_one = array(
-        'Family' => 'Family'
+        'Family' => 'Family',
+		'Parish' => 'Parish'
     );
 
+	private static $belongs_to = array(
+		'Health' => 'Health.FamilyMember',
+		'Job' => 'Job.FamilyMember'
+	);
+	
 	private static $has_many = array(
 		'Educations' => 'Education'
 	);
@@ -46,6 +52,7 @@ class FamilyMember extends DataObject{
       'Name',
       'DateOfBirth',	  	
    );
+	
 	
 	public function Sex(){
 		if($this->Gender == 'm')
@@ -81,20 +88,53 @@ class FamilyMember extends DataObject{
 
 	}
 
+	public function Age(){
+		$from = new DateTime($this->DateOfBirth);
+		$to   = new DateTime('today');
+		return  $from->diff($to)->y;
+	}
 
+	
+    public function HasOrNot($Title = null){		
+        if($this->$Title && $Title)
+            return 'Yes';
+        else
+            return 'No';
+    }
+	
+	public function Link($BackURL = null ){		
+		$controller = new FamilyMemberController();
+		$url = $controller->Link();
+		if($BackURL){
+			return Controller::join_links(
+				$url,
+				'show/'.$this->ID,
+				'?RedirectURL=' . urlencode($BackURL)			
+				);
+		}
+		else{
+			return Controller::join_links(
+				$url,
+				'show/'.$this->ID
+				);			
+		}
+
+	}
+	
 	public function getCMSFields(){
 		$fields = parent::getCMSFields();
-
 
 		if($this->ID){
 			Session::set("FamilyMemberID", $this->ID);
 		}
 
-		if(Session::get("FamilyID")){
+		if(Session::get("FamilyID") && !$this->ID){
 			$this->FamilyID = Session::get("FamilyID");
-			$fields->replaceField('FamilyID', new HiddenField('FamilyID'));
-		}
-
+			$this->ParishID = Session::get("ParishID");			
+		}		
+		
+		$fields->replaceField('FamilyID', new HiddenField('FamilyID'));
+		$fields->replaceField('ParishID', new HiddenField('ParishID'));			
 		$dateOfBirth = new DateField('DateOfBirth','Date Of Birth');
 		$dateOfBirth->setConfig('dateformat', 'dd-MM-yyyy');
 		$dateOfBirth->setDescription('e.g. '.date('d-m-Y'));
@@ -103,13 +143,12 @@ class FamilyMember extends DataObject{
 
 		$genders = Config::inst()->get('FamilyMember', 'Gender');
 		$gender = new OptionsetField("Gender", 'Gender', $genders );
-		$fields->addFieldsToTab('Root.Main',$gender);
+		$fields->addFieldsToTab('Root.Main', $gender);
 
 		$status = Config::inst()->get('FamilyMember', 'MartialStatus');
 		$martialStatus = new OptionsetField("MartialStatus", 'Martial Status', $status );
-
-		$fields->addFieldsToTab('Root.Main',$martialStatus);
-
+		$fields->addFieldsToTab('Root.Main', $martialStatus);
+		
 
 		$fields->insertBefore(new Tab('Job', 'Job'), 'CommunityGroups');
 		//Job GridField

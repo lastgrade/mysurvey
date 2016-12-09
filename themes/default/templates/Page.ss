@@ -6,7 +6,7 @@
     <% base_tag %>
     <title><% if $MetaTitle %>$MetaTitle<% else %>$Title<% end_if %> &raquo; My Parish</title>
 
-    <% require themedCSS('app') %>
+    <%-- require themedCSS('app') --%>
     <% require themedCSS('style') %>
     <script src="{$ThemeDir}/js/modernizr.js"></script>
   </head>

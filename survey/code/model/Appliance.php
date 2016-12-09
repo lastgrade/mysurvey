@@ -57,7 +57,29 @@ class Appliance extends DataObject
             return 'No';
     }
 
+    public function HasOrNot($Title = null){		
+        if($this->$Title && $Title)
+            return 'Yes';
+        else
+            return 'No';
+    }
 
+	public function AppliancesOwned(){
+		$appliancesArray = array('Computer','WashingMachine','AirConditioner',
+								'MicrowaveOven', 'CookingGas','Fridge',	'Others',							
+							);
+		$appliances = null;
+		foreach($appliancesArray as $appliance){
+			if($this->$appliance){
+				if($this->$appliance && $appliance =='Others')
+					$appliances .= $appliance.'('.$this->Specify.'), ';
+				else
+					$appliances .= $appliance.', ';
+			}			
+		}		
+		return rtrim($appliances, ', ');		
+	}
+	
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 

@@ -27,7 +27,7 @@ class HomeController extends SiteController
         return $this->renderWith(array('Home', 'App'));
     }
 
-
+	
     public function Title() {
         return $this->title;
     }
@@ -36,5 +36,37 @@ class HomeController extends SiteController
         return Director::baseURL();
     }
 
+	public function Families(){
+		$list =  Family::get();
+		
+        if(Cookie::get('myparishid')){
+            $id = Cookie::get('myparishid');
+			$list = $list->Filter(array('ParishID' => $id ));
+        }
 
+        if(Session::get('myparishid')){
+            $id = Session::get('myparishid');
+            $list = $list->Filter(array('ParishID' => $id ));
+        }
+		
+		return $list;
+	}
+	
+	public function FamilyMembers(){
+		$list =  FamilyMember::get();
+		
+        if(Cookie::get('myparishid')){
+            $id = Cookie::get('myparishid');
+			$list = $list->Filter(array('ParishID' => $id ));
+        }
+
+        if(Session::get('myparishid')){
+            $id = Session::get('myparishid');
+            $list = $list->Filter(array('ParishID' => $id ));
+        }
+		
+		return $list;
+	}
+	
+	
 }
