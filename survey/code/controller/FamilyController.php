@@ -16,7 +16,9 @@ class FamilyController extends SiteController
 		'print_by_parish',
 		'print_by_location',
 		'show',
-		'print_family'
+		'print_family',
+		'list_records',
+		'add_family',
     );
 
 
@@ -36,6 +38,23 @@ class FamilyController extends SiteController
         return $this->renderWith(array('Family', 'App'));
     }
 
+    public function list_records() {
+		$this->title = 'Listing family';
+		$this->list = $this->Results();		
+		
+        return $this->renderWith(array('Family_listrecords', 'App'));
+    }
+	
+	
+	public function add_family(){
+		$this->title = "Add Family";
+		$data = array(
+				'Form' => $this->AddFamilyForm()
+				);
+		return $this->customise($data)->renderWith(array('Family_add', 'App'));			
+	}
+	
+	
     public function search_by_parish() {
 		// show Unathorised page with user does not have access other parish
 		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		
@@ -193,6 +212,20 @@ class FamilyController extends SiteController
         $list->setPageLength($this->getPageLength());
 		return $list;
 	}
+	
+	public function AddFamilyForm(){
+	
+	}
+	
+    public function FamilySearchForm(){
+        $form = new FamilySearchForm($this,__FUNCTION__);
+        $form->setFormMethod('get')
+            ->setFormAction($this->link('list-records'));
+        $form->setLegend('Search');
+        $form->loadDataFrom($this->request->getVars());
+        $form->disableSecurityToken();
+        return $form;
+    }
 	
     public function ParishSearchForm(){
         $form = new ParishSearchForm($this,__FUNCTION__);
