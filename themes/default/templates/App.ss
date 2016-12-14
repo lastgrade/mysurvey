@@ -10,6 +10,7 @@
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="{$ThemeDir}/jquery-ui/jquery-ui.js"></script>
 
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	
 	<% require css('themes/default/foundation-icons/foundation-icons.css') %>	    
     <% require themedCSS('style') %>

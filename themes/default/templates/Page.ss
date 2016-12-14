@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <% base_tag %>
     <title><% if $MetaTitle %>$MetaTitle<% else %>$Title<% end_if %> &raquo; My Survey</title>
-
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <%-- require themedCSS('app') --%>
     <% require themedCSS('style') %>
     <script src="{$ThemeDir}/js/modernizr.js"></script>

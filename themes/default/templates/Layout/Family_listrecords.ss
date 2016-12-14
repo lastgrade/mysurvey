@@ -15,7 +15,7 @@
                         <th>Contact No</th>
                         <th>Block/Unit/Family</th>
                         <th>House No</th>
-						<th></th>
+						<th width="50"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -28,7 +28,11 @@
                         <td>{$BlockNo}/{$UnitNo}/{$FamilyNo}</td>
                         <td>$HouseNo</td>
 						<td>
-							<a href="$Link" data-reveal-id="myModal" data-reveal-ajax="true" title="View $Name"><i class="fi-page"></i></a>
+							<a href="$Link('view')" data-reveal-id="myModal" data-reveal-ajax="true" title="View $Name"><i class="fi-page"></i></a>
+							| 
+							<a href="$Link('edit')" title="View $Name"><i class="fi-page"></i></a>
+							|
+							<a href="$Link('edit')" title="View $Name"><i class="fi-page"></i></a>
 						</td>
                     </tr>
                 <% end_loop %>
