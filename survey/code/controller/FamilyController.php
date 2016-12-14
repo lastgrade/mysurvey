@@ -19,6 +19,11 @@ class FamilyController extends SiteController
 		'print_family',
 		'list_records',
 		'add_family',
+		'AddFamilyForm',
+		'edit_family',
+		'EditFamilyForm',
+		'view',
+		'delete',
     );
 
 
@@ -51,7 +56,33 @@ class FamilyController extends SiteController
 		$data = array(
 				'Form' => $this->AddFamilyForm()
 				);
-		return $this->customise($data)->renderWith(array('Family_add', 'App'));			
+		return $this->customise($data)->renderWith(array('Family_form', 'App'));			
+	}
+	
+	
+	public function AddFamilyForm(){							
+		$form = new AddFamilyForm($this, __FUNCTION__);				
+		return $form;
+		
+	}
+	
+	public function view(){
+		// show Unathorised page with user does not have access other parish
+		$familyID = Convert::raw2sql($this->request->param('ID'));		
+		$family = Family::get()->byID($familyID);		
+		if(!$family){
+			return $this->httpError('404','Page not found');
+		}
+		$this->title = 'Family details';
+		$data = array('Family' => $family);
+		if($this->request->isAjax()){
+			return $this->customise($data )
+				->renderWith(array('Family_view'));
+		}
+		else{
+			return $this->customise($data )
+				->renderWith(array('Family_view','App'));			
+		}
 	}
 	
 	
@@ -213,9 +244,6 @@ class FamilyController extends SiteController
 		return $list;
 	}
 	
-	public function AddFamilyForm(){
-	
-	}
 	
     public function FamilySearchForm(){
         $form = new FamilySearchForm($this,__FUNCTION__);

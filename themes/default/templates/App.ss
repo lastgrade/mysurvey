@@ -4,15 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <% base_tag %>
-    <title><% if $MetaTitle %>$MetaTitle<% else %>$Title<% end_if %> &raquo; My Parish</title>
+    <title><% if $MetaTitle %>$MetaTitle<% else %>$Title<% end_if %> &raquo; My Survey</title>
 
     <link rel="stylesheet" href="{$ThemeDir}/jquery-ui/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="{$ThemeDir}/jquery-ui/jquery-ui.js"></script>
 
 	
-	<% require css('themes/default/foundation-icons/foundation-icons.css') %>	
-    <%-- require themedCSS('app') --%>
+	<% require css('themes/default/foundation-icons/foundation-icons.css') %>	    
     <% require themedCSS('style') %>
     <script src="{$ThemeDir}/js/modernizr.js"></script>
 	
@@ -45,7 +44,7 @@
 
                       </li>
                       <li class="link">
-                          <a href="admin/parishes" target="_blank">Manage Survey</a>
+                          <a href="family/list-records" >Manage Survey</a>
                       </li>
                       <li class="link">
                           <a href="myparish">My Parish</a>

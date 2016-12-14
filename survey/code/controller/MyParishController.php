@@ -99,7 +99,7 @@ class MyParishController extends SiteController
 			$selectedMember->Password='';
 			$form->loadDataFrom($selectedMember);			
 		}
-		
+		//check whether user belongs to myparish
 		$myParish = $this->MyParish();	
 		$inParish = $selectedMember->Parishes()->filter(array('ID' => $myParish->ID))->First();
 		if(!$inParish){
