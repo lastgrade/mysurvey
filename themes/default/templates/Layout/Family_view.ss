@@ -1,5 +1,6 @@
 <div class="row main">
     <div class="large-12 columns">
+		<div class="panel">
 		<% with Family %>		
         <h2>$Name</h2>
 			<!--<a href="family/print-family/$ID" target="_blank" title="Print"> Print <i class="fi-print"></i></a>-->
@@ -20,22 +21,13 @@
                 </div>
             </div>
         </div>
-
+		<hr>
+		
         <div class="row">
             <div class="large-12 columns">
-				<hr>			    
-                <ul class="tabs" data-tab>                    
-                    <li class="tab-title active"><a href="#members">Members</a></li>
-					<li class="tab-title "><a href="#housing">Housing</a></li>
-					<li class="tab-title "><a href="#occupation">Occupation</a></li>
-					<li class="tab-title "><a href="#monthly">Monthly</a></li>
-					<li class="tab-title "><a href="#others">Other Details</a></li>
-					<li class="tab-title "><a href="#financial">Financial</a></li>
-					<li class="tab-title "><a href="#contact">Contact</a></li>
-                </ul>
-                <div class="tabs-content">
-                    <div class="content active" id="members">
-						<h4 class="subheader">Members</h4>
+				
+				<h3>Members</h3>
+				
 						<% if FamilyMembers %>
 							<table>
 							<thead>
@@ -63,8 +55,7 @@
 							</table>
 						<% end_if %>
 						
-                    </div>					
-                    <div class="content" id="housing">
+				<h3>Housing</h3>				
 						<% if $House %>
 						<h4 class="subheader">House</h4>
 				        <div class="row">
@@ -108,8 +99,9 @@
 							</div>
 						</div>	
                         <% end_if %>
-                    </div>
-                    <div class="content " id="occupation">
+				
+				<h3>Occupation</h3>
+				
 						<% if $Agriculture %>
 						<h4 class="subheader">Agriculture</h4>
 				        <div class="row">
@@ -132,10 +124,9 @@
 							</div>										
 						</div>
 						<% end_if %>
-						
-						
-                    </div>
-                    <div class="content " id="monthly">
+				
+				<h3>Monthly</h3>
+				
 						<% if $MonthlyIncome %>
 						<h4 class="subheader">Monthly Income</h4>
 				        <div class="row">
@@ -182,8 +173,8 @@
 							</div>																	
 						</div>
 						<% end_if %>
-                    </div>
-                    <div class="content " id="others">
+						
+				<h3>Other Details</h3>
 						<% if $Vehicle %>
 						<h4 class="subheader">Vehicle</h4>
 				        <div class="row">
@@ -355,9 +346,8 @@
 						</div>	
 						<% end_if %>
 
-
-                    </div>
-                    <div class="content " id="financial">
+				
+				<h3>Financial</h3>
 						<% if $Loan %>
 						<h4 class="subheader">Loan</h4>
 				        <div class="row">
@@ -413,9 +403,9 @@
 							</div>										
 						</div>	
 						<% end_if %>
-						
-                    </div>
-                    <div class="content " id="contact">
+				
+				<h3>Contact</h3>
+				
 						<% if $Contact %>
 						<h4 class="subheader">Contact</h4>
 				        <div class="row">
@@ -430,7 +420,6 @@
 							</div>
 						</div>
 						<% end_if %>
-                    </div>
 					
                 </div>
 			</div>	

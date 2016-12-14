@@ -85,6 +85,59 @@ class FamilyController extends SiteController
 		}
 	}
 	
+	public function edit_family(){
+		
+		$this->title = "Edit family";
+		$form = $this->EditFamilyForm();
+		$form->setTemplate('AddFamilyForm');
+		$id = (int)$this->request->param('ID');
+		//var_dump($_POST);EXIT();
+		$family = Family::get()->byID($id);
+		if(!$family){
+			 return $this->httpError(404,'Page not found');
+		}
+		if($family->exists() && $form){			
+			$form->loadDataFrom($family);			
+		}
+		//check whether user belongs to myparish
+		//$myParish = $this->MyParish();	
+		//$inParish = $family->Parishes()->filter(array('ID' => $myParish->ID))->First();
+		//if(!$inParish){
+		//	return $this->renderWith(array('Unathorised_access', 'App'));
+		//}
+		
+		$data = array(
+				'Form' => $form
+				);
+		return $this->customise($data)->renderWith(array('Family_form', 'App'));	
+		
+	}
+	
+	
+	public function EditFamilyForm(){							
+		$form = new EditFamilyForm($this, __FUNCTION__);				
+		return $form;		
+	}
+	
+	public function delete_family(){
+		
+		$this->title = "Delete family";	
+		$id = (int)$this->request->param('ID');
+		//var_dump($_POST);EXIT();
+		$family = Family::get()->byID($id);
+
+		if(!$family){
+			 return $this->httpError(404,'Page not found');
+		}
+		
+
+		if($family->exists()){
+			$family->destroy();
+			$family->delete();
+			return $this->redirect($this->Link('list-records/?message=deleted'));
+		}		
+		
+	}
 	
     public function search_by_parish() {
 		// show Unathorised page with user does not have access other parish

@@ -15,7 +15,7 @@
                         <th>Contact No</th>
                         <th>Block/Unit/Family</th>
                         <th>House No</th>
-						<th width="50"></th>
+						<th width="100"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,9 +30,9 @@
 						<td>
 							<a href="$Link('view')" data-reveal-id="myModal" data-reveal-ajax="true" title="View $Name"><i class="fi-page"></i></a>
 							| 
-							<a href="$Link('edit')" title="View $Name"><i class="fi-page"></i></a>
+							<a href="$Link('edit-family')" title="Edit $Name"><i class="fi-page-edit"></i></a>
 							|
-							<a href="$Link('edit')" title="View $Name"><i class="fi-page"></i></a>
+							<a href="$Link('delete-family')" title="Delete $Name" onclick="return confirm('Are you sure?');"><i class="fi-page-delete"></i></a>
 						</td>
                     </tr>
                 <% end_loop %>

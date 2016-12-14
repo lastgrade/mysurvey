@@ -78,7 +78,10 @@
                             <% end_with %>		<%-- with $FieldMap --%>						
 						
 
-					$Fields.fieldByName('SecurityID')					
+					$Fields.fieldByName('SecurityID')
+					<% if $Fields.fieldByName('ID')	%>
+						$Fields.fieldByName('ID')						
+					<% end_if %>
 					
                     <% if $Actions %>
                         <div class="Actions">
