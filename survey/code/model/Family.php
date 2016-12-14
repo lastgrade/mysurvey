@@ -83,9 +83,25 @@ class Family extends DataObject
 		return ($this->ParishID)?$this->Parish()->NameWithLocation():'';
 	}
 	
-	public function Link($BackURL = null ){		
+	public function Link($action = null, $BackURL = null ){		
 		$controller = new FamilyController();
 		$url = $controller->Link();
+		if($BackURL){
+			return Controller::join_links(
+				$url,
+				$action.'/'.$this->ID,
+				'?RedirectURL=' . urlencode($BackURL)			
+				);
+		}
+		else{
+			return Controller::join_links(
+				$url,
+				$action.'/'.$this->ID
+				);			
+		}
+		
+		
+		/*
 		if($BackURL){
 			return Controller::join_links(
 				$url,
@@ -99,7 +115,7 @@ class Family extends DataObject
 				'show/'.$this->ID
 				);			
 		}
-
+		*/
 	}
 	
 	/*

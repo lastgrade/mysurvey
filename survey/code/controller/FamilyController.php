@@ -23,7 +23,7 @@ class FamilyController extends SiteController
 		'edit_family',
 		'EditFamilyForm',
 		'view',
-		'delete',
+		'delete_family',
     );
 
 
