@@ -3,8 +3,14 @@
 class BusinessController extends SiteController{
 	#code
 	
-    public static $allowed_actions = array(
-        'index','search', 'printlist'
+	public static $allowed_actions = array(
+        	'index',
+    		'search',
+    		'printlist',
+    		'add_business',
+    		'AddBusinessForm',
+    		'edit_business',
+    		'EditBusinessForm'
     );
 	
 	/**
@@ -27,6 +33,70 @@ class BusinessController extends SiteController{
 		$this->title = 'Business';		
 		return $this->renderWith(array('Business','App'));
 	}
+
+    public function add_business(){
+		    
+    	$familyID = (int)$this->getRequest()->getVar('FamilyID');
+    	$family = Family::get()->byID($familyID);
+    	if(!$family){
+    		return $this->httpError(404,'Page not found');
+    	}
+    
+    	$this->title = "Add Business";
+    	$form = $this->AddBusinessForm();
+    
+    	$familyID = $form->Fields()->fieldByName('FamilyID');
+    	$familyID->setValue($family->ID);
+    
+    	$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+    	$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+    	$redirectURL->setValue($backURL);
+    
+    	$data = array(
+    			'Form' => $form
+    	);
+    
+    	return $this->customise($data)->renderWith(array('Generic_form', 'App'));
+    }
+    
+    
+    public function AddBusinessForm(){
+    	$form = new AddBusinessForm($this, __FUNCTION__);
+    	return $form;
+    }
+    
+    public function edit_business(){
+    
+    	$this->title = "Edit Business";
+    	$form = $this->EditBusinessForm();
+    	$form->setTemplate('AddBusinessForm');
+    	$id = (int)$this->request->param('ID');
+    	//var_dump($_POST);EXIT();
+    	$business = Business::get()->byID($id);
+    	if(!$business){
+    		return $this->httpError(404,'Page not found');
+    	}
+    	if($business->exists() && $form){
+    		$form->loadDataFrom($business);
+    	}
+    
+    	$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+    	$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+    	$redirectURL->setValue($backURL);
+    
+    
+    	$data = array(
+    			'Form' => $form
+    	);
+    	return $this->customise($data)->renderWith(array('Generic_form', 'App'));
+    
+    }
+    
+    
+    public function EditBusinessForm(){
+    	$form = new EditBusinessForm($this, __FUNCTION__);
+    	return $form;
+    }
 
 	public function search(){		
 		// show Unathorised page with user does not have access other parish

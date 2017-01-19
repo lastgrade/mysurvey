@@ -1,4 +1,4 @@
-<h2>Survey</h2>
+<h3>Survey</h3>
 <ul class="side-nav">
     <li><a href="members">Members</a></li>
     <li><a href="education">Education</a></li>

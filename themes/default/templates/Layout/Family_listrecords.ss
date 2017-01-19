@@ -2,7 +2,7 @@
     <div class="row">
         <div class="large-9 medium-9 columns" id="content">
 
-		<a href="{$Link(add-family)}" title="Add Family"><i class="fi-page-add"></i> Add Family</a>
+		<a href="{$Link(add-family)}?&BackURL=$RequestedURL" title="Add Family"><i class="fi-page-add"></i> Add Family</a>
             <% if $PaginatedList %>
 			<%-- include PaginationResult  Items=$PaginatedList --%>
 			
@@ -28,11 +28,11 @@
                         <td>{$BlockNo}/{$UnitNo}/{$FamilyNo}</td>
                         <td>$HouseNo</td>
 						<td>
-							<a href="$Link('view')" data-reveal-id="myModal" data-reveal-ajax="true" title="View $Name"><i class="fi-page"></i></a>
+							<a href="{$Link('view')}?&BackURL=$Top.RequestedURL" title="View $Name"><i class="fi-page"></i></a>
 							| 
-							<a href="$Link('edit-family')" title="Edit $Name"><i class="fi-page-edit"></i></a>
+							<a href="{$Link('edit-family')}?&BackURL=$Top.RequestedURL" title="Edit $Name"><i class="fi-page-edit"></i></a>
 							|
-							<a href="$Link('delete-family')" title="Delete $Name" onclick="return confirm('Are you sure?');"><i class="fi-page-delete"></i></a>
+							<a href="{$Link('delete-family')}?&BackURL=$Top.RequestedURL" title="Delete $Name" onclick="return confirm('Are you sure?');"><i class="fi-page-delete"></i></a>
 						</td>
                     </tr>
                 <% end_loop %>
@@ -46,7 +46,7 @@
        </div><!-- div id="content" -->
 
         <div class="large-3 medium-3 columns" id="sidebar">
-	            <h2>Family </h2>
+	            <h3>Family </h3>
 	            $FamilySearchForm       
         </div>
     </div>

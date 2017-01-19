@@ -4,6 +4,13 @@ $(document).foundation();
 
 $(function() {
 
+	
+    function baseURL(){
+        $base = document.getElementsByTagName('base');
+        return $base[0].href;
+    	
+    }
+	
     var projects = [
         {
             value: "jquery",
@@ -41,12 +48,12 @@ $(function() {
             $base = document.getElementsByTagName('base');
             var $baseurl = $base[0].href;
             var $redirecturl = '?BackURL=' + encodeURIComponent(window.location.href);
-            console.log($redirecturl);
+            //console.log($redirecturl);
             window.location.href = $baseurl + 'parish/myparish/' + ui.item.id + $redirecturl;
             return false;
         }
     })
-        .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
         return $( "<li>" )
             .append( "<a>" + item.title + ", " +  item.location  +  "</a>" )
             .appendTo( ul );
@@ -55,6 +62,7 @@ $(function() {
     $('#myParish').hide();
     var $myParish = 'hidden';
 
+    
     $('#myParishHandler').click(function(event ){
             event.preventDefault();
             if($myParish=='hidden'){
@@ -67,5 +75,13 @@ $(function() {
             }
         }
     );
+    
+    $('[name="action_doCancel"]').click(function(event) {    	
+    	event.preventDefault;
+    	$redirecturl = baseURL() + $('[name="RedirectURL"]').val();
+    	window.location.href = $redirecturl;
+    	return false;
+    });
+    
 
 });

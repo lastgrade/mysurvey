@@ -45,7 +45,12 @@
 
                       </li>
                       <li class="link">
-                          <a href="family/list-records" >Manage Survey</a>
+                      <li class="link has-dropdown"><a href="#">Manage Survey</a>
+                          <ul class="dropdown">
+                              <li class="link"><a href="family/list-records">Family</a></li>
+                              <li class="link"><a href="members/list-records">Member</a></li>
+                          </ul>                     
+                          
                       </li>
                       <li class="link">
                           <a href="myparish">My Parish</a>

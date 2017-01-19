@@ -98,8 +98,7 @@ class Family extends DataObject
 				$url,
 				$action.'/'.$this->ID
 				);			
-		}
-		
+		}		
 		
 		/*
 		if($BackURL){
@@ -118,40 +117,14 @@ class Family extends DataObject
 		*/
 	}
 	
-	/*
-	public function Contact(){
-		$contact = Contact::get()->filter(array(
-						'FamilyID' => $this->ID
-					))->first();
-		//echo '<pre>'.$this->ID.'<br>';var_dump($contact);echo '</pre>';
-		//Debug::show($contact);
-		if($contact)
-			return $contact;
-		else
-			return false;
-	}
-	*/
-		
-	/*
-	public function Test(){
-		$contact = Contact::get()->filter(array(
-			'FamilyID' => $this->ID
-		))->first();
-		//echo '<pre>'.$this->ID.'<br>';var_dump($contact);echo '</pre>';
-		//Debug::show($contact);
-		if($contact)
-			return 'true';
-		else
-			return 'false';
-	}*/
+
 
 	public function scaffoldSearchFields($_params = null){
 		$fields = parent::scaffoldSearchFields();
 		//$fields->removeByName('ID');
 		//$fields->removeByName('Address');
 		//$fields->removeByName('Address');
-		//$fields->removeByName('Address');
-		
+		//$fields->removeByName('Address');		
 		
 		$member = Member::currentUser();
 		$parishes = $member->Parishes(); 		

@@ -3,9 +3,16 @@
 class MonthlyExpenseController extends SiteController{
 	#code
 	
-    public static $allowed_actions = array(
-        'index','search', 'printlist'
-    );
+	#code	
+	public static $allowed_actions = array(
+        	'index',
+    		'search',
+    		'printlist',
+    		'add_monthly_expense',
+    		'AddMonthlyExpenseForm',
+    		'edit_monthly_expense',
+    		'EditMonthlyExpenseForm'
+    );		
 	
 	/**
 	 * Family datalist
@@ -27,6 +34,70 @@ class MonthlyExpenseController extends SiteController{
 		$this->title = 'Monthly-Expense';		
 		return $this->renderWith(array('MonthlyExpense','App'));
 	}
+
+    public function add_monthly_expense(){
+		    
+    	$familyID = (int)$this->getRequest()->getVar('FamilyID');
+    	$family = Family::get()->byID($familyID);
+    	if(!$family){
+    		return $this->httpError(404,'Page not found');
+    	}
+    
+    	$this->title = "Add Monthly-Expense";
+    	$form = $this->AddMonthlyExpenseForm();
+    
+    	$familyID = $form->Fields()->fieldByName('FamilyID');
+    	$familyID->setValue($family->ID);
+    
+    	$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+    	$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+    	$redirectURL->setValue($backURL);
+    
+    	$data = array(
+    			'Form' => $form
+    	);
+    
+    	return $this->customise($data)->renderWith(array('Generic_form', 'App'));
+    }
+    
+    
+    public function AddMonthlyExpenseForm(){
+    	$form = new AddMonthlyExpenseForm($this, __FUNCTION__);
+    	return $form;
+    }
+    
+    public function edit_monthly_expense(){
+    
+    	$this->title = "Edit Monthly-Expense";
+    	$form = $this->EditMonthlyExpenseForm();
+    	$form->setTemplate('AddMonthlyExpenseForm');
+    	
+    	$id = (int)$this->request->param('ID');
+    	$monthlyExpense = MonthlyExpense::get()->byID($id);
+    	if(!$monthlyExpense){
+    		return $this->httpError(404,'Page not found');
+    	}
+    	if($monthlyExpense->exists() && $form){
+    		$form->loadDataFrom($monthlyExpense);
+    	}
+    
+    	$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+    	$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+    	$redirectURL->setValue($backURL);
+    
+    
+    	$data = array(
+    			'Form' => $form
+    	);
+    	return $this->customise($data)->renderWith(array('Generic_form', 'App'));
+    
+    }
+    
+    
+    public function EditMonthlyExpenseForm(){
+    	$form = new EditMonthlyExpenseForm($this, __FUNCTION__);
+    	return $form;
+    }
 
 	public function search(){
 		// show Unathorised page with user does not have access other parish

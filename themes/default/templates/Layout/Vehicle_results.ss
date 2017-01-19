@@ -2,7 +2,7 @@
     <div class="row">
         <div class="large-9 medium-9 columns" id="content">
 
-            <h2>Search results</h2>
+            <h3>Search results</h3>
 
             $VehicleSearchForm
 

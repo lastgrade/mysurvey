@@ -1,7 +1,7 @@
 <div class="row main">
     <div class="large-12 columns">
 		<% with FamilyMember %>		
-        <h2>$Name</h2>
+        <h3>$Name</h3>
 		<a href="members/print-member/$ID" target="_blank" title="Print"> Print <i class="fi-print"></i></a>
         <div class="row">			
             <div class="large-6 columns">

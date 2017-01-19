@@ -32,7 +32,7 @@ abstract class BaseForm extends Form {
 
     public function getFormActions() {
         return FieldList::create(
-            FormAction::create('doSubmit', 'Submit')->setUseButtonTag(true)
+            FormAction::create('doSubmit', 'Submit')->setUseButtonTag(true)        	
         );
     }
 

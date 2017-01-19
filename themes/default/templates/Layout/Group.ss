@@ -1,7 +1,7 @@
 <div class="main">
     <div class="row">
         <div class="large-9 medium-9 columns" id="content">
-			<h5>Groups</h5>
+			<h3>Groups</h3>
 			$GroupsSearchForm	
 		</div>
 		

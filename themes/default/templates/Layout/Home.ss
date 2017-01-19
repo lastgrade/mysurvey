@@ -38,7 +38,7 @@
                         </a>
                     </div>
                     <div class="large-4 columns text-center">
-                        <a href="admin/parishes" target="_blank">
+                        <a href="family/list-records">
                             <i class="fi-page-edit size-72"></i>
                             <p>Edit survey</p>
                         </a>

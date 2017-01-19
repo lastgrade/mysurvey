@@ -48,6 +48,15 @@ class EditFamilyForm extends BaseForm{
 		$fields->push($parishField);
 		//$fields->replaceField('ParishID', $parishField);
 		
+		$fields->push(HiddenField::create('RedirectURL','RedirectURL'));
+		/*
+		$controller = Controller::curr();
+		$backURL = urldecode($controller->getRequest()->getVar('BackURL'));
+		$redirectField = HiddenField::create('RedirectURL','RedirectURL');
+		$redirectField->setValue($backURL);
+		$fields->push($redirectField);
+		*/
+		
 		
 		//$fields->push( PhoneNumberField::create('Phone','HouseNo'));
 		//$fields->push(HiddenField::create('ParishID','ParishID'));
@@ -57,11 +66,12 @@ class EditFamilyForm extends BaseForm{
     public function getFormActions() {
         $actions = parent::getFormActions();
         $actions->first()->setTitle('Edit');
+        $actions->push(FormAction::create('doCancel', 'Cancel')->setUseButtonTag(true)->addExtraClass('secondary'));
         return $actions;
     }
 
     public function getFormValidator() {
-        return RequiredFields::create(array('FirstName','Email','Password'));
+        return RequiredFields::create(array('Name','Address','ParishID'));
     }
 
     /**
@@ -77,8 +87,14 @@ class EditFamilyForm extends BaseForm{
 		$form->saveInto($family);		
 		$family->write();
 		
-        $this->getController()->redirect(
+		$redirectUrl = urldecode($data['RedirectURL']);
+		return $this->getController()->redirect(
+				$this->getController()->Link('view/'.$family->ID.'?BackURL='.$redirectUrl)
+				);
+		/*
+		return $this->getController()->redirect(
             $this->getController()->Link('view/'.$family->ID)
-        );        
+        );
+        */        
     }	
 }

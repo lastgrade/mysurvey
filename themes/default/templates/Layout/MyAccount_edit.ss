@@ -1,6 +1,6 @@
 <div class="row main">
     <div class="large-12 columns">
-        <h2>$Title</h2>
+        <h3>$Title</h3>
         <div class="row main">
             <div class="large-6 columns">
 				<% if IsSuccess %>

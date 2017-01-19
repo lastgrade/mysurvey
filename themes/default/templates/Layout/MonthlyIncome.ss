@@ -1,7 +1,7 @@
 <div class="main">
     <div class="row">
         <div class="large-9 medium-9 columns" id="content">
-			<h5>Monthly Income/Expense</h5>
+			<h3>Monthly Income/Expense</h3>
 			$MonthlyIncomeSearchForm
 
 	    </div>

@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="large-9 medium-9 columns">
-			<h5>Housing</h5>
+			<h3>Housing</h3>
 			$LandSearchForm
 
     </div>

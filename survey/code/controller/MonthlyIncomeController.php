@@ -1,11 +1,18 @@
 <?php
 //
 class MonthlyIncomeController extends SiteController{
-	#code
 	
-    public static $allowed_actions = array(
-        'index','search', 'printlist'
+	#code	
+	public static $allowed_actions = array(
+        	'index',
+    		'search',
+    		'printlist',
+    		'add_monthly_income',
+    		'AddMonthlyIncomeForm',
+    		'edit_monthly_income',
+    		'EditMonthlyIncomeForm'
     );
+	
 	
 	/**
 	 * Family datalist
@@ -27,6 +34,72 @@ class MonthlyIncomeController extends SiteController{
 		$this->title = 'Monthly';		
 		return $this->renderWith(array('MonthlyIncome','App'));
 	}
+	
+    public function add_monthly_income(){
+		    
+    	$familyID = (int)$this->getRequest()->getVar('FamilyID');
+    	$family = Family::get()->byID($familyID);
+    	if(!$family){
+    		return $this->httpError(404,'Page not found');
+    	}
+    
+    	$this->title = "Add Monthly-Income";
+    	$form = $this->AddMonthlyIncomeForm();
+    
+    	$familyID = $form->Fields()->fieldByName('FamilyID');
+    	$familyID->setValue($family->ID);
+    
+    	$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+    	$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+    	$redirectURL->setValue($backURL);
+    
+    	$data = array(
+    			'Form' => $form
+    	);
+    
+    	return $this->customise($data)->renderWith(array('Generic_form', 'App'));
+    }
+    
+    
+    public function AddMonthlyIncomeForm(){
+    	$form = new AddMonthlyIncomeForm($this, __FUNCTION__);
+    	return $form;
+    }
+    
+    public function edit_monthly_income(){
+    
+    	$this->title = "Edit Monthly-Income";
+    	$form = $this->EditMonthlyIncomeForm();
+    	$form->setTemplate('AddMonthlyIncomeForm');
+    	$id = (int)$this->request->param('ID');
+    	//var_dump($_POST);EXIT();
+    	$monthlyIncome = MonthlyIncome::get()->byID($id);
+    	if(!$monthlyIncome){
+    		return $this->httpError(404,'Page not found');
+    	}
+    	if($monthlyIncome->exists() && $form){
+    		$form->loadDataFrom($monthlyIncome);
+    	}
+    
+    	$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+    	$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+    	$redirectURL->setValue($backURL);
+    
+    
+    	$data = array(
+    			'Form' => $form
+    	);
+    	return $this->customise($data)->renderWith(array('Generic_form', 'App'));
+    
+    }
+    
+    
+    public function EditMonthlyIncomeForm(){
+    	$form = new EditMonthlyIncomeForm($this, __FUNCTION__);
+    	return $form;
+    }
+
+	
 
 	public function search(){
 		// show Unathorised page with user does not have access other parish

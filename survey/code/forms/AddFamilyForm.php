@@ -8,10 +8,8 @@ class AddFamilyForm extends BaseForm{
         FieldList $actions = null,
         $validator = null
     ) {
-        //print __CLASS__.'<br>';
         parent::__construct($controller, $name, $fields, $actions, $validator);
-        $this->addExtraClass('js-places-search-form');
-        //echo __CLASS__;
+        $this->addExtraClass('js-places-search-form');	       
     }
 
     public function getFormFields() {
@@ -45,8 +43,16 @@ class AddFamilyForm extends BaseForm{
 		$parishField->setEmptyString('select...');
 		$parishField->setValue(parent::getDefaultParishID());
 		$fields->push($parishField);
-		//$fields->replaceField('ParishID', $parishField);
+
+		$fields->push(HiddenField::create('RedirectURL','RedirectURL'));
 		
+		/*
+		$controller = Controller::curr();
+		$backURL = urldecode($controller->getRequest()->getVar('BackURL'));
+		$redirectField = HiddenField::create('RedirectURL','RedirectURL');
+		$redirectField->setValue($backURL);
+		$fields->push($redirectField);
+		*/		
 		
 		//$fields->push( PhoneNumberField::create('Phone','HouseNo'));
 		//$fields->push(HiddenField::create('ParishID','ParishID'));
@@ -56,11 +62,14 @@ class AddFamilyForm extends BaseForm{
     public function getFormActions() {
         $actions = parent::getFormActions();
         $actions->first()->setTitle('Create');
+        $cancel = FormAction::create('doCancel', 'Cancel')->setUseButtonTag(true);
+        $cancel->addExtraClass('secondary');
+        $actions->push($cancel);
         return $actions;
     }
 
     public function getFormValidator() {
-        return RequiredFields::create(array('FirstName','Email','Password'));
+        return RequiredFields::create(array('Name','Address','ParishID'));
     }
 
     /**
@@ -75,8 +84,9 @@ class AddFamilyForm extends BaseForm{
 		$form->saveInto($family);		
 		$family->write();
 		
-        $this->getController()->redirect(
-            $this->getController()->Link('view/'.$family->ID)
+		$redirectUrl = urldecode($data['RedirectURL']);
+		return $this->getController()->redirect(        	
+            $this->getController()->Link('view/'.$family->ID.'?BackURL='.$redirectUrl)
         );        
     }	
 }

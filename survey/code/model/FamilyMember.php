@@ -32,7 +32,7 @@ class FamilyMember extends DataObject{
 		"CommunityGroups" => "CommunityGroup",
 	);
 
-	private static $default_sort = 'ID DESC';
+	private static $default_sort = 'ID ASC';
 
 	private static $field_labels = array(
 		'DateOfBirth' => 'DateOfBirth',
@@ -102,7 +102,24 @@ class FamilyMember extends DataObject{
             return 'No';
     }
 	
-	public function Link($BackURL = null ){		
+    
+	public function Link($action = null, $BackURL = null ){
+		$controller = new FamilyMemberController();
+		$url = $controller->Link();
+		if($BackURL){
+			return Controller::join_links(
+					$url,
+					$action.'/'.$this->ID,
+					'?RedirectURL=' . urlencode($BackURL)
+					);
+		}
+		else{
+			return Controller::join_links(
+					$url,
+					$action.'/'.$this->ID
+					);
+		}
+		/*
 		$controller = new FamilyMemberController();
 		$url = $controller->Link();
 		if($BackURL){
@@ -118,7 +135,7 @@ class FamilyMember extends DataObject{
 				'show/'.$this->ID
 				);			
 		}
-
+		*/
 	}
 	
 	public function getCMSFields(){
@@ -139,7 +156,7 @@ class FamilyMember extends DataObject{
 		$dateOfBirth->setConfig('dateformat', 'dd-MM-yyyy');
 		$dateOfBirth->setDescription('e.g. '.date('d-m-Y'));
 		$dateOfBirth->setAttribute('placeholder','dd-MM-yyyy');
-		$fields->addFieldsToTab('Root.Main',$dateOfBirth);
+		$fields->addFieldsToTab('Root.Main', $dateOfBirth);
 
 		$genders = Config::inst()->get('FamilyMember', 'Gender');
 		$gender = new OptionsetField("Gender", 'Gender', $genders );

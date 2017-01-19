@@ -10,7 +10,14 @@ class ShiftedFromController extends SiteController
 {
 
     public static $allowed_actions = array(
-        'index','search','printlist'
+        	'index',
+    		'search',
+    		'printlist',
+    		'add_shifted_from',
+    		'AddShiftedFromForm',
+    		'edit_shifted_from',
+    		'EditShiftedFromForm'
+    		
     );
 	
 	protected $list;
@@ -24,6 +31,72 @@ class ShiftedFromController extends SiteController
         return $this->renderWith(array('ShiftedFrom', 'App'));
     }
 
+
+    public function add_shifted_from(){
+    
+    	$familyID = (int)$this->getRequest()->getVar('FamilyID');
+    	$family = Family::get()->byID($familyID);
+    	if(!$family){
+    		return $this->httpError(404,'Page not found');
+    	}
+    
+    	$this->title = "Add Shifted-From";
+    	$form = $this->AddShiftedFromForm();
+    
+    	$familyID = $form->Fields()->fieldByName('FamilyID');
+    	$familyID->setValue($family->ID);
+    
+    	$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+    	$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+    	$redirectURL->setValue($backURL);
+    
+    	$data = array(
+    			'Form' => $form
+    	);
+    
+    	return $this->customise($data)->renderWith(array('Generic_form', 'App'));
+    }
+    
+    
+    public function AddShiftedFromForm(){
+    	$form = new AddShiftedFromForm($this, __FUNCTION__);
+    	return $form;
+    }
+    
+    public function edit_shifted_from(){
+    
+    	$this->title = "Edit Shifted-Form";
+    	$form = $this->EditShiftedFromForm();
+    	$form->setTemplate('AddShiftedFromForm');
+    	$id = (int)$this->request->param('ID');
+    	//var_dump($_POST);EXIT();
+    	$shiftedForm = ShiftedFrom::get()->byID($id);
+    	if(!$shiftedForm){
+    		return $this->httpError(404,'Page not found');
+    	}
+    	if($shiftedForm->exists() && $form){
+    		$form->loadDataFrom($shiftedForm);
+    	}
+    
+    	$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+    	$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+    	$redirectURL->setValue($backURL);
+    
+    
+    	$data = array(
+    			'Form' => $form
+    	);
+    	return $this->customise($data)->renderWith(array('Generic_form', 'App'));
+    
+    }
+    
+    
+    public function EditShiftedFromForm(){
+    	$form = new EditShiftedFromForm($this, __FUNCTION__);
+    	return $form;
+    }
+    
+    
     public function search() {
 		// show Unathorised page with user does not have access other parish
 		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		

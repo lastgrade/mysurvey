@@ -77,19 +77,20 @@
 								</div>								
                             <% end_with %>		<%-- with $FieldMap --%>						
 						
-
+					$Fields.fieldByName('RedirectURL')
 					$Fields.fieldByName('SecurityID')
+					
 					<% if $Fields.fieldByName('ID')	%>
 						$Fields.fieldByName('ID')						
 					<% end_if %>
 					
                     <% if $Actions %>
                         <div class="Actions">
-                            <% loop $Actions %>
-                                <div class="large-3 columns">
-									$addExtraClass('button')
-                                </div>
+                        	<div class="large-12 columns">
+                            <% loop $Actions %>                                
+									$addExtraClass('button')                                
                             <% end_loop %>
+                            </div>
                         </div>
                     <% end_if %>
                     </div>

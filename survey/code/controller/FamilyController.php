@@ -53,8 +53,14 @@ class FamilyController extends SiteController
 	
 	public function add_family(){
 		$this->title = "Add Family";
+		$form = $this->AddFamilyForm();
+		
+		$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+		$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+		$redirectURL->setValue($backURL);
+		
 		$data = array(
-				'Form' => $this->AddFamilyForm()
+				'Form' => $form 
 				);
 		return $this->customise($data)->renderWith(array('Family_form', 'App'));			
 	}
@@ -99,6 +105,11 @@ class FamilyController extends SiteController
 		if($family->exists() && $form){			
 			$form->loadDataFrom($family);			
 		}
+		
+		$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+		$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+		$redirectURL->setValue($backURL);
+		
 		//check whether user belongs to myparish
 		//$myParish = $this->MyParish();	
 		//$inParish = $family->Parishes()->filter(array('ID' => $myParish->ID))->First();
@@ -128,13 +139,14 @@ class FamilyController extends SiteController
 
 		if(!$family){
 			 return $this->httpError(404,'Page not found');
-		}
-		
+		}		
 
 		if($family->exists()){
 			$family->destroy();
 			$family->delete();
-			return $this->redirect($this->Link('list-records/?message=deleted'));
+			$backURL = urldecode($this->getRequest()->getVar('BackURL'));//exit($backURL );
+			return $this->redirect($backURL.'&message=deleted');
+			//return $this->redirect($this->Link($backURL.'&message=deleted'));			
 		}		
 		
 	}
@@ -223,13 +235,15 @@ class FamilyController extends SiteController
         return $this->title;
     }
 
-    public function Link($slug = null) {
+    
+    public function Link($slug = null) {    	
         if($slug){
             return Controller::join_links(Director::baseURL(), 'family', $slug);
         } else {
             return Controller::join_links(Director::baseURL(), 'family');
         }
     }
+    
 
     public function Results(){
 
@@ -278,13 +292,13 @@ class FamilyController extends SiteController
                 'IsMunicipality' => $isMunicipality
             ));
         }
-
+        
         if($isCorporation){
             $list = $list->filter(array(
                 'IsCorporation' => $isCorporation
             ));
         }
-
+        
         //$list = $list->leftJoin('Contact', "\"Contact\".\"FamilyID\" = \"Family\".\"ID\"");
         //Debug::show($list);
 

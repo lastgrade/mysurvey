@@ -1,6 +1,6 @@
 <div class="row main">
     <div class="large-12 columns">
-        <h2>My Parish</h2>
+        <h3>My Parish</h3>
         <div class="row main">
             <div class="large-6 columns">
                 <h3>Parish</h3>

@@ -1,6 +1,6 @@
 <div class="row main">
     <div class="large-12 columns">
-        <h2>Edit Parish</h2>
+        <h3>Edit Parish</h3>
         <div class="row main">
             <div class="large-6 columns">
 				$EditParishForm

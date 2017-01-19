@@ -10,7 +10,7 @@
 class SiteController extends Controller
 {
 
-    private static $page_length = 50;
+    private static $page_length = 2;
 
 	protected $title;
 	
@@ -71,10 +71,20 @@ class SiteController extends Controller
 
     // return request url with baseurl
     public function RedirectURL(){
-        //echo Director::baseURL();exit();
+        //echo Director::baseURL();exit();        
         return urlencode(Director::baseURL().$this->request->getURL(true));
     }
-
+    
+    public function RequestedURL(){
+    	//echo Director::baseURL();exit();
+    	return urlencode($this->request->getURL(true));
+    }
+    
+    public function GoBackURL(){
+    	//echo $this->request->getVar('BackURL');
+    	return urldecode($this->request->getVar('BackURL'));
+    }
+    
     // return pageLength
     public function getPageLength(){
         return self::$page_length;

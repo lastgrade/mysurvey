@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: thomas
@@ -10,7 +9,14 @@ class HouseController extends SiteController
 {
 
     public static $allowed_actions = array(
-        'index','search','printlist'
+        'index',
+    	'search',
+    	'printlist',
+   		'add_house',
+   		'AddHouseForm',
+   		'edit_house',
+   		'EditHouseForm',
+   		'view',    		
     );
 	
 	/**
@@ -42,6 +48,70 @@ class HouseController extends SiteController
         return $this->renderWith(array('House_results', 'App'));
     }
 
+    public function add_house(){
+    	 
+    	$familyID = (int)$this->getRequest()->getVar('FamilyID');
+    	$family = Family::get()->byID($familyID);
+    	if(!$family){
+    		return $this->httpError(404,'Page not found');
+    	}
+    	 
+    	$this->title = "Add house";
+    	$form = $this->AddHouseForm();
+    	 
+    	$familyID = $form->Fields()->fieldByName('FamilyID');
+    	$familyID->setValue($family->ID);
+    	 
+    	$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+    	$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+    	$redirectURL->setValue($backURL);
+    
+    	$data = array(
+    			'Form' => $form
+    	);
+    	 
+    	return $this->customise($data)->renderWith(array('House_form', 'App'));
+    }
+    
+    
+    public function AddHouseForm(){
+    	$form = new AddHouseForm($this, __FUNCTION__);    	 
+    	return $form;    
+    }
+    
+    public function edit_house(){
+    
+    	$this->title = "Edit house";
+    	$form = $this->EditHouseForm();
+    	$form->setTemplate('AddHouseForm');
+    	$id = (int)$this->request->param('ID');
+    	//var_dump($_POST);EXIT();
+    	$house = House::get()->byID($id);
+    	if(!$house){
+    		return $this->httpError(404,'Page not found');
+    	}
+    	if($house->exists() && $form){
+    		$form->loadDataFrom($house);
+    	}
+    
+    	$backURL = urldecode($this->getRequest()->getVar('BackURL'));
+    	$redirectURL = $form->Fields()->fieldByName('RedirectURL');
+    	$redirectURL->setValue($backURL);    	 
+    
+    
+   		$data = array(
+			'Form' => $form
+   		);
+   		return $this->customise($data)->renderWith(array('House_form', 'App'));
+    
+    }
+    
+    
+    public function EditHouseForm(){
+    	$form = new EditHouseForm($this, __FUNCTION__);
+    	return $form;
+    }
+    
     public function printlist() {
 		// show Unathorised page with user does not have access other parish
 		$parishID = Convert::raw2sql($this->request->getVar('ParishID'));		

@@ -9,7 +9,7 @@
 class House extends DataObject
 {
     private static $db = array(
-        'Status' => "Enum('own, rent, loan')",
+        'Status' => "Enum('own, rent, joint, loan')",
         'Amount' => 'Int',
         'HoldsRationCard' => 'Boolean',
         'CardType' => 'VarChar(4)',

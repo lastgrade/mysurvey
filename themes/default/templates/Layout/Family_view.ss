@@ -2,42 +2,46 @@
     <div class="large-12 columns">
 		<div class="panel">
 		<% with Family %>		
-        <h2>$Name</h2>
-			<!--<a href="family/print-family/$ID" target="_blank" title="Print"> Print <i class="fi-print"></i></a>-->
-        <div class="row">			
-            <div class="large-6 columns">
-				$Address, $Pincode <br>
-				House no: $HouseNo <br>
-				Panchayat: $InPanchayat <br>
-				Municipality: $InMunicipality <br>
-				Corporation: $InCorporation 
-
-            </div>
-            <div class="large-6 columns">
-				Block no: $BlockNo <br>
-                Unit no: $UnitNo <br>
-				Unit no: $FamilyNo <br>
-				Parish: $Parish.NameWithLocation
-                </div>
-            </div>
+        <h3>$Name</h3>
+				<!--<a href="family/print-family/$ID" target="_blank" title="Print"> Print <i class="fi-print"></i></a>-->
+				<a href="{$Link('edit-family')}?&BackURL=$Top.RequestedURL" title="Edit $Name"><i class="fi-page-edit"></i> Edit</a>
+				|
+				<a href="$Top.GoBackURL" title="Go back"><i class="fi-page-edit"></i> Go back</a>
+	        <div class="row">			
+	            <div class="large-6 columns">
+					$Address, $Pincode (pin) <br>
+					House no: $HouseNo <br>
+					Panchayat: $InPanchayat <br>
+					Municipality: $InMunicipality <br>
+					Corporation: $InCorporation 
+	
+	            </div>
+	            <div class="large-6 columns">
+	            	Parish: $Parish.NameWithLocation <br>
+					Block no: $BlockNo <br>
+	                Unit no: $UnitNo <br>
+					Family no: $FamilyNo				
+              </div>
+       	</div>
         </div>
 		<hr>
 		
         <div class="row">
             <div class="large-12 columns">
 				
-				<h3>Members</h3>
-				
+				<h4 class="subheader">Members</h4>
+						<a href="members/add-member?FamilyID=$ID&BackURL=$Top.RequestedURL" title="Add member"><i class="fi-page-add"></i> Add member</a>
 						<% if FamilyMembers %>
 							<table>
 							<thead>
 							<tr>
-								<th width="2%">#</th>
-								<th width="20%">Name</th>
-								<th width="20%">Gender</th>
-								<th width="20%">DOB / Age</th>
-								<th width="20%">Blood Group / Martial Status</th>
-								<th width="18%"></th>
+								<th>#</th>
+								<th>Name</th>
+								<th>Gender</th>
+								<th>DOB / Age</th>
+								<th>Blood G / Status</th>
+								<th>Relation</th>
+								<th></th>
 							</tr>
 							</thead>
 							<tbody>							
@@ -48,31 +52,49 @@
 								<td>{$Sex}</td>
 								<td>{$DateOfBirth.Format('d-m-Y')} / {$Age} yrs</td>
 								<td>$BloodGroup / $MStatus</td>
-								<td>$Relation</td>							
+								<td>$Relation</td>	
+								<td>
+								<a href="{$Link('view')}?&BackURL=$Top.RequestedURL" title="View $Name"><i class="fi-page"></i></a>
+								| 
+								<a href="{$Link('edit-member')}?&BackURL=$Top.RequestedURL" title="Edit $Name"><i class="fi-page-edit"></i></a>
+								|
+								<a href="{$Link('delete-member')}?&BackURL=$Top.RequestedURL" title="Delete $Name" onclick="return confirm('Are you sure?');"><i class="fi-page-delete"></i></a>							
+								</td>														
 							</tr>						
 						<% end_loop %>
 							</tbody>						
 							</table>
 						<% end_if %>
+				<hr>
 						
-				<h3>Housing</h3>				
-						<% if $House %>
-						<h4 class="subheader">House</h4>
+				<h4 class="subheader">Housing</h4>
+						<h5 class="subheader">House</h5>
+						<% if not $House %>
+							<a href="house/add-house?FamilyID=$ID&BackURL=$Top.RequestedURL"><i class="fi-page-add"></i> Add</a>
+						<% else %>
+						<% end_if %>				
+						<% if $House %>						
 				        <div class="row">
 						    <div class="large-6 columns">
-								Status: $House.Status<br>								
+								House: $House.Status<br>								
 								Ration-Card Holder: $House.RationCardHolder<br>
-								HouseType: $House.HouseType
+								HouseType: $House.Type
 							</div>			
-						    <div class="large-6 columns">
-								Amount: $House.Amount<br>
+						    <div class="large-6 columns">								
 								Card Type: $House.CardType.UpperCase<br>
 								Build Year: $House.BuildYear
 							</div>
 						</div>
+							<% with $House %>
+								<a href="house/edit-house/$ID?BackURL=$Top.RequestedURL"><i class="fi-page-edit"></i> Edit</a>
+							<% end_with %>						
 						<% end_if %>
-						<% if $Land %>
-						<h4 class="subheader">Land</h4>
+						
+						<h5 class="subheader">Land</h5>
+						<% if not $Land %>
+							<a href="land/add-land?FamilyID=$ID&BackURL=$Top.RequestedURL"><i class="fi-page-add"></i> Add</a>
+						<% end_if %>
+						<% if $Land %>						
 				        <div class="row">
 						    <div class="large-4 columns">
 								HoldsLand: $Land.LandHolder							
@@ -84,9 +106,18 @@
 								Total Land: $Land.InCent cents
 							</div>
 						</div>
+							<% with $Land %>
+								<a href="land/edit-land/$ID?BackURL=$Top.RequestedURL"><i class="fi-page-edit"></i> Edit</a>
+							<% end_with %>					
+						
 						<% end_if %>
-						<% if $ShiftedFrom %>
-						<h4 class="subheader">Shifted Form</h4>
+						
+						<h5 class="subheader">Shifted Form</h5>
+						<% if not $ShiftedFrom %>
+							<a href="shifted-from/add-shifted-from?FamilyID=$ID&BackURL=$Top.RequestedURL"><i class="fi-page-add"></i> Add</a>
+						<% end_if %>		
+										
+						<% if $ShiftedFrom %>												
 				        <div class="row">
 						    <div class="large-4 columns">
 								Status : $ShiftedFrom.Shifted							
@@ -97,13 +128,21 @@
 						    <div class="large-4 columns">
 								Reason: $ShiftedFrom.Reason
 							</div>
-						</div>	
+						</div>
+							<% with $ShiftedFrom %>
+								<a href="shifted-from/edit-shifted-from/$ID?BackURL=$Top.RequestedURL"><i class="fi-page-edit"></i> Edit</a>
+							<% end_with %>					
+							
                         <% end_if %>
-				
-				<h3>Occupation</h3>
-				
-						<% if $Agriculture %>
+				<hr>
+				<h4 class="subheader">Occupation</h4>
+
 						<h4 class="subheader">Agriculture</h4>
+						<% if not $Agriculture %>
+							<a href="agriculture/add-agriculture?FamilyID=$ID&BackURL=$Top.RequestedURL"><i class="fi-page-add"></i> Add</a>
+						<% end_if %>								
+						
+						<% if $Agriculture %>
 				        <div class="row">
 						    <div class="large-6 columns">
 								Type: $Agriculture.Type							
@@ -112,9 +151,18 @@
 								others : $Agriculture.Other							
 							</div>										
 						</div>
+							<% with $Agriculture %>
+								<a href="agriculture/edit-agriculture/$ID?BackURL=$Top.RequestedURL"><i class="fi-page-edit"></i> Edit</a>
+							<% end_with %>					
+						
 						<% end_if %>
-						<% if $Business %>
+						
 						<h4 class="subheader">Business</h4>
+						<% if not $Business %>
+							<a href="business/add-business?FamilyID=$ID&BackURL=$Top.RequestedURL"><i class="fi-page-add"></i> Add</a>
+						<% end_if %>											
+						
+						<% if $Business %>						
 				        <div class="row">
 						    <div class="large-6 columns">
 								Type: $Business.Type							
@@ -123,12 +171,20 @@
 								others : $Business.Other							
 							</div>										
 						</div>
+							<% with $Business %>
+								<a href="business/edit-business/$ID?BackURL=$Top.RequestedURL"><i class="fi-page-edit"></i> Edit</a>
+							<% end_with %>					
+						
 						<% end_if %>
+				<hr>
+				<h4 class="subheader">Monthly</h4>
 				
-				<h3>Monthly</h3>
-				
+						<h5 class="subheader">Monthly Income</h5>
+						<% if not $MonthlyIncome %>
+							<a href="monthlyincome/add-monthly-income?FamilyID=$ID&BackURL=$Top.RequestedURL"><i class="fi-page-add"></i> Add</a>
+						<% end_if %>											
+						
 						<% if $MonthlyIncome %>
-						<h4 class="subheader">Monthly Income</h4>
 				        <div class="row">
 						    <div class="large-6 columns">
 								Land: $MonthlyIncome.Land							
@@ -145,9 +201,18 @@
 								Total : $MonthlyIncome.Total							
 							</div>																	
 						</div>
+							<% with $MonthlyIncome %>
+								<a href="monthlyincome/edit-monthly-income/$ID?BackURL=$Top.RequestedURL"><i class="fi-page-edit"></i> Edit</a>
+							<% end_with %>					
+						
 						<% end_if %>
+						
+						<h5 class="subheader">Monthly Expense</h5>						
+						<% if not $MonthlyExpense %>
+							<a href="monthlyexpense/add-monthly-expense?FamilyID=$ID&BackURL=$Top.RequestedURL"><i class="fi-page-add"></i> Add</a>
+						<% end_if %>											
+
 						<% if $MonthlyExpense %>
-						<h4 class="subheader">Monthly Expense</h4>
 				        <div class="row">
 						    <div class="large-6 columns">
 								Food: $MonthlyExpense.Food							
@@ -172,11 +237,17 @@
 								Total : $MonthlyExpense.Total							
 							</div>																	
 						</div>
+							<% with $MonthlyExpense %>
+								<a href="monthlyexpense/edit-monthly-expense/$ID?BackURL=$Top.RequestedURL"><i class="fi-page-edit"></i> Edit</a>
+							<% end_with %>					
+						
 						<% end_if %>
 						
-				<h3>Other Details</h3>
+				<hr>		
+				<h4 class="subheader">Other Details</h4>
+						<h5 class="subheader">Vehicle</h5>
+						<% if not $Vehicle %><a href="#"><i class="fi-page-add"></i>Add</a><% end_if %>				
 						<% if $Vehicle %>
-						<h4 class="subheader">Vehicle</h4>
 				        <div class="row">
 						    <div class="large-4 columns">
 								Has Cycle : $Vehicle.HasCycle							
@@ -211,8 +282,10 @@
 							</div>
 						</div>	          
 						<% end_if %>
+
+						<h5 class="subheader">Appliance</h5>
+						<% if not $Appliance %><a href="#"><i class="fi-page-add"></i>Add</a><% end_if %>						
 						<% if $Appliance %>
-						<h4 class="subheader">Appliance</h4>
 				        <div class="row">
 						    <div class="large-4 columns">
 								Has Computer : $Appliance.HasOrNot('Computer')							
@@ -244,8 +317,10 @@
 							</div>										
 						</div>	
 						<% end_if %>
+						
+						<h5 class="subheader">Other Facility</h5>
+						<% if not $OtherFacility %><a href="#"><i class="fi-page-add"></i>Add</a><% end_if %>						
 						<% if $OtherFacility %>
-						<h4 class="subheader">Other Facility</h4>
 				        <div class="row">
 						    <div class="large-4 columns">
 								Has WaterWell : $OtherFacility.HasOrNot('WaterWell')							
@@ -277,8 +352,10 @@
 							</div>										
 						</div>	
 						<% end_if %>
+						
+						<h5 class="subheader">Media</h5>
+						<% if not $Media %><a href="#"><i class="fi-page-add"></i>Add</a><% end_if %>						
 						<% if $Media %>
-						<h4 class="subheader">Media</h4>
 				        <div class="row">
 						    <div class="large-6 columns">
 								Has Newspaper : $Media.HasNewspaper()							
@@ -312,8 +389,10 @@
 							</div>										
 						</div>												
 						<% end_if %>
+						
+						<h5 class="subheader">Catholic Magazine </h5>
+						<% if not $CatholicMagazine %><a href="#"><i class="fi-page-add"></i>Add</a><% end_if %>						
 						<% if $CatholicMagazine %>
-						<h4 class="subheader">Catholic Magazine </h4>
 				        <div class="row">
 						    <div class="large-4 columns">
 								Has Jeevadeepthi : $CatholicMagazine.HasOrNot('Jeevadeepthi')							
@@ -346,10 +425,11 @@
 						</div>	
 						<% end_if %>
 
-				
-				<h3>Financial</h3>
+				<hr>
+				<h4 class="subheader">Financial</h4>
+						<h5 class="subheader">Loan</h5>
+						<% if not $Loan %><a href="#"><i class="fi-page-add"></i>Add</a><% end_if %>				
 						<% if $Loan %>
-						<h4 class="subheader">Loan</h4>
 				        <div class="row">
 						    <div class="large-6 columns">
 								Has Loan : $Loan.OnLoan()							
@@ -367,8 +447,10 @@
 							</div>										
 						</div>							
 						<% end_if %>
+						
+						<h5 class="subheader">Savings</h5>
+						<% if not $Saving %><a href="#"><i class="fi-page-add"></i>Add</a><% end_if %>
 						<% if $Saving %>
-						<h4 class="subheader">Savings</h4>
 				        <div class="row">
 						    <div class="large-4 columns">
 								Has EducationFund : $Saving.HasOrNot('EducationFund')							
@@ -403,11 +485,12 @@
 							</div>										
 						</div>	
 						<% end_if %>
-				
-				<h3>Contact</h3>
-				
-						<% if $Contact %>
+						
+						<hr>
+						
 						<h4 class="subheader">Contact</h4>
+						<% if not $Contact %><a href="#"><i class="fi-page-add"></i>Add</a><% end_if %>				
+						<% if $Contact %>						
 				        <div class="row">
 						    <div class="large-4 columns">
 								Name : $Contact.Name
